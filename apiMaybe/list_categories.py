@@ -31,1111 +31,1193 @@ def make_lists():
                 if a['text'] == "1 Added Passive Skill is Aerodynamics":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 0.934
                         }
                     projectile.append(b)
                 if a['text'] == "1 Added Passive Skill is Agent of Destruction":
                     b = {
                         'id': a,
-                        'percent': 12.145
+                        'percent': 5.279
                         }
                     herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Ancestral Echo":
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.143
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Ancestral Guidance":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.070
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Ancestral Inspiration":
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.777
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Ancestral Might":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.070
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Ancestral Preservation":
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.777
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Ancestral Reach":
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.143
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Arcane Pyrotechnics":
                     b = {
                         'id': a,
-                        'percent': 3.269
+                        'percent': 1.029
                         }
                     trap.append(b)
                 if a['text'] == "1 Added Passive Skill is Assert Dominance":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 1.029
                         }
                     area_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Astonishing Affliction":
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.564
                         }
                     ailment_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Basics of Pain":
                     b = {
                         'id': a,
-                        'percent': 6.296
+                        'percent': 2.564
                         }
                     crit_chance.append(b)
-                if a['text'] == "1 Added Passive Skill is Blast Freeze":
+                if a['text'] == "1 Added Passive Skill is Blast-Freeze":
                     b = {
                         'id': a,
-                        'percent': 2.125
+                        'percent': 0.501
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.856
                         }
                     ailment_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Blessed Rebirth":
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.755
                         }
                     minion_life.append(b)
+                if a['text'] == "1 Added Passive Skill is Blizzard Caller":
+                    b = {
+                        'id': a,
+                        'percent': 1.321
+                        }
+                    curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Blowback":
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Bodyguards":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.008
                         }
                     minion_life.append(b)
                 if a['text'] == "1 Added Passive Skill is Brand Loyalty":
                     b = {
                         'id': a,
-                        'percent': 14.168
+                        'percent': 6.567
                         }
                     brand_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Brewed for Potency":
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.952
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 8.502
+                        'percent': 2.671
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 8.098
+                        'percent': 3.324
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.536
+                        'percent': 2.056
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 3.027
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.924
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Brush with Death":
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.365
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.125
+                        'percent': 0.501
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.023
+                        'percent': 0.623
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.135
+                        'percent': 0.384
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.362
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Burning Bright":
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Careful Handling":
                     b = {
                         'id': a,
-                        'percent': 3.269
+                        'percent': 1.029
                         }
                     trap.append(b)
                 if a['text'] == "1 Added Passive Skill is Chilling Presence":
                     b = {
                         'id': a,
-                        'percent': 1.250
+                        'percent': 0.286
                         }
                     ailment_effect.append(b)
+                    b = {
+                        'id': a,
+                        'percent': 0.166
+                        }
+                    cold_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Chip Away":
                     b = {
                         'id': a,
-                        'percent': 7.086
+                        'percent': 3.285
                         }
                     brand_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Circling Oblivion":
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.952
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 8.502
+                        'percent': 2.671
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 8.098
+                        'percent': 3.324
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.536
+                        'percent': 2.056
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.924
                         }
                     phys_dot.append(b)
+                if a['text'] == "1 Added Passive Skill is Cold-Blooded Killer":
+                    b = {
+                        'id': a,
+                        'percent': 1.097
+                        }
+                    cold_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Cold Conduction":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 0.856
                         }
                     ailment_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Compound Injury":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.962
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Cooked Alive":
                     b = {
                         'id': a,
-                        'percent': 4.536
+                        'percent': 0.384
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Cremator":
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Cry Wolf":
                     b = {
                         'id': a,
-                        'percent': 2.933
+                        'percent': 0.917
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Cult-Leader":
                     b = {
                         'id': a,
-                        'percent': 16.196
+                        'percent': 7.085
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Dark Discourse":
                     b = {
                         'id': a,
-                        'percent': 5.313
+                        'percent': 1.321
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Dark Ideation":
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.365
                         }
                     chaos_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Dark Messenger":
                     b = {
                         'id': a,
-                        'percent': 6.075
+                        'percent': 2.640
                         }
                     herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Deep Chill":
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.564
                         }
                     ailment_effect.append(b)
+                    b = {
+                        'id': a,
+                        'percent': 2.671
+                        }
+                    cold_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Disciples":
                     b = {
                         'id': a,
-                        'percent': 4.047
+                        'percent': 1.330
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Disorienting Wounds":
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.924
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Distilled Perfection":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 3.027
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.987
                         }
                     flask_recovery.append(b)
                 if a['text'] == "1 Added Passive Skill is Dread March":
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.020
                         }
                     minion_life.append(b)
                 if a['text'] == "1 Added Passive Skill is Empowered Envoy":
                     b = {
                         'id': a,
-                        'percent': 12.154
+                        'percent': 5.279
                         }
                     herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Endbringer":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 0.990
                         }
                     herald.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.047
+                        'percent': 1.330
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Enduring Focus":
                     b = {
                         'id': a,
-                        'percent': 1.466
+                        'percent': 0.317
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Eldritch Inspiration":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Eternal Suffering":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Evil Eye":
                     b = {
                         'id': a,
-                        'percent': 10.627
+                        'percent': 2.639
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Eye to Eye":
                     b = {
                         'id': a,
-                        'percent': 6.074
+                        'percent': 2.494
                         }
                     projectile.append(b)
                 if a['text'] == "1 Added Passive Skill is Expansive Might":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 1.029
                         }
                     area_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Expendability":
                     b = {
                         'id': a,
-                        'percent': 3.269
+                        'percent': 1.029
                         }
                     trap.append(b)
                 if a['text'] == "1 Added Passive Skill is Expert Sabotage":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 2.749
                         }
                     trap.append(b)
+                if a['text'] == "1 Added Passive Skill is Exploit Weakness":
+                    b = {
+                        'id': a,
+                        'percent': 1.321
+                        }
+                    curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Exposure Therapy":
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.952
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 8.502
+                        'percent': 2.671
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 8.098
+                        'percent': 3.324
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.536
+                        'percent': 2.056
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.924
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Eye of the Storm":
                     b = {
                         'id': a,
-                        'percent': 3.150
+                        'percent': 1.282
                         }
                     crit_chance.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.283
                         }
                     ailment_effect.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Fan the Flames":
                     b = {
                         'id': a,
-                        'percent': 1.135
+                        'percent': 0.384
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Fasting":
                     b = {
                         'id': a,
-                        'percent': 3.269
+                        'percent': 1.512
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.494
                         }
                     flask_recovery.append(b)
                 if a['text'] == "1 Added Passive Skill is Feasting Fiends":
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.020
                         }
                     minion_life.append(b)
                 if a['text'] == "1 Added Passive Skill is First Among Equals":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 2.693
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Flow of Life":
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.365
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.125
+                        'percent': 0.501
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.023
+                        'percent': 0.623
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.135
+                        'percent': 0.384
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.362
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Follow-Through":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 0.934
                         }
                     projectile.append(b)
                 if a['text'] == "1 Added Passive Skill is Forbidden Words":
                     b = {
                         'id': a,
-                        'percent': 2.657
+                        'percent': 0.494
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Guerilla Tactics":
                     b = {
                         'id': a,
-                        'percent': 13.081
+                        'percent': 5.495
                         }
                     trap.append(b)
                 if a['text'] == "1 Added Passive Skill is Grand Design":
                     b = {
                         'id': a,
-                        'percent': 3.541
+                        'percent': 1.231
                         }
                     brand_damage.append(b)
+                if a['text'] == "1 Added Passive Skill is Grounded Commander":
+                    b = {
+                        'id': a,
+                        'percent': 0.505
+                        }
+                    aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Haemorrhage":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.251
+                        'percent': 1.336
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 3.150
+                        'percent': 1.282
                         }
                     crit_chance.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.047
+                        'percent': 1.663
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.962
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Haunting Shout":
                     b = {
                         'id': a,
-                        'percent': 5.862
+                        'percent': 2.449
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Heraldry":
                     b = {
                         'id': a,
-                        'percent': 1.518
+                        'percent': 0.331
                         }
                     herald.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.023
+                        'percent': 0.443
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Hex Breaker":
                     b = {
                         'id': a,
-                        'percent': 2.933
+                        'percent': 0.317
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Holy Conquest":
                     b = {
                         'id': a,
-                        'percent': 7.086
+                        'percent': 3.285
                         }
                     brand_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Hulking Corpses":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.008
                         }
                     minion_life.append(b)
                 if a['text'] == "1 Added Passive Skill is Inspired Oppression":
                     b = {
                         'id': a,
-                        'percent': 1.250
+                        'percent': 0.286
                         }
                     ailment_effect.append(b)
-                if a['text'] == "1 Added Passive Skill is Intensity":
-                    b = {
-                        'id': a,
-                        'percent': 3.035
-                        }
-                    area_damage.append(b)
+                #if a['text'] == "1 Added Passive Skill is Intensity":
+                #    b = {
+                #        'id': a,
+                #        'percent': 3.035
+                #        }
+                #    area_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Invigorating Portents":
                     b = {
                         'id': a,
-                        'percent': 8.098
+                        'percent': 3.543
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Lasting Impression":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 0.990
                         }
                     herald.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.047
+                        'percent': 1.330
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Lead by Example":
                     b = {
                         'id': a,
-                        'percent': 11.727
+                        'percent': 4.895
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Life from Death":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.008
                         }
                     minion_life.append(b)
                 if a['text'] == "1 Added Passive Skill is Liquid Inspiration":
                     b = {
                         'id': a,
-                        'percent': 1.637
+                        'percent': 0.567
                         }
                     flask_duration.append(b)
+                if a['text'] == "1 Added Passive Skill is Lord of Drought":
+                    b = {
+                        'id': a,
+                        'percent': 1.321
+                        }
+                    curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Low Tolerance":
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.365
                         }
                     chaos_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Magnifier":
                     b = {
                         'id': a,
-                        'percent': 12.145
+                        'percent': 5.495
                         }
                     area_damage.append(b)
                     b = {
                         'id': a,
-                        'percent': 6.296
+                        'percent': 2.564
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Master of Command":
                     b = {
                         'id': a,
-                        'percent': 1.309
+                        'percent': 0.505
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Master of Fear":
                     b = {
                         'id': a,
-                        'percent': 2.657
+                        'percent': 0.494
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Master of Fire":
                     b = {
                         'id': a,
-                        'percent': 0.565
+                        'percent': 0.129
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Mender's Wellspring":
                     b = {
                         'id': a,
-                        'percent': 1.637
+                        'percent': 0.567
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.934
                         }
                     flask_recovery.append(b)
+                if a['text'] == "1 Added Passive Skill is Misery Everlasting":
+                    b = {
+                        'id': a,
+                        'percent': 1.321
+                        }
+                    curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Mob Mentality":
                     b = {
                         'id': a,
-                        'percent': 1.466
+                        'percent': 0.306
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Numbing Elixir":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 0.567
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 0.934
                         }
                     flask_recovery.append(b)
                 if a['text'] == "1 Added Passive Skill is Overshock":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.283
                         }
                     ailment_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Overwhelming Malice":
                     b = {
                         'id': a,
-                        'percent': 1.573
+                        'percent': 0.480
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Peak Vigour":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 3.027
                         }
                     flask_duration.append(b)
                 if a['text'] == "1 Added Passive Skill is Powerful Assault":
                     b = {
                         'id': a,
-                        'percent': 6.074
+                        'percent': 2.749
                         }
                     area_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Precise Commander":
                     b = {
                         'id': a,
-                        'percent': 1.309
+                        'percent': 0.505
                         }
                     aura_effect.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.573
+                        'percent': 0.480
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Precise Focus":
                     b = {
                         'id': a,
-                        'percent': 5.862
+                        'percent': 2.541
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Precise Retaliation":
                     b = {
                         'id': a,
-                        'percent': 3.150
+                        'percent': 1.282
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Pressure Points":
                     b = {
                         'id': a,
-                        'percent': 3.150
+                        'percent': 1.282
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Provocateur":
                     b = {
                         'id': a,
-                        'percent': 3.150
+                        'percent': 1.282
                         }
                     crit_chance.append(b)
                     b = {
                         'id': a,
-                        'percent': 5.862
+                        'percent': 2.449
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Pure Agony":
                     b = {
                         'id': a,
-                        'percent': 2.023
+                        'percent': 1.330
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Pure Aptitude":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 0.505
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Pure Commander":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 0.505
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Pure Guile":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 0.505
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Pure Might":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 0.505
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Purposeful Harbinger":
                     b = {
                         'id': a,
-                        'percent': 0.655
+                        'percent': 0.168
                         }
                     aura_effect.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.518
+                        'percent': 0.331
                         }
                     herald.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.023
+                        'percent': 0.443
                         }
                     minion_herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Quick Getaway":
                     b = {
                         'id': a,
-                        'percent': 6.296
+                        'percent': 2.564
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Rapid Infusion":
                     b = {
                         'id': a,
-                        'percent': 2.933
+                        'percent': 0.954
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Rattling Bellow":
                     b = {
                         'id': a,
-                        'percent': 11.727
+                        'percent': 4.895
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Remarkable":
                     b = {
                         'id': a,
-                        'percent': 7.086
+                        'percent': 1.231
                         }
                     brand_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Rend":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.962
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Renewal":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.008
                         }
                     minion_life.append(b)
                 if a['text'] == "1 Added Passive Skill is Repeater":
                     b = {
                         'id': a,
-                        'percent': 12.145
+                        'percent': 4.987
                         }
                     projectile.append(b)
                 if a['text'] == "1 Added Passive Skill is Replenishing Presence":
                     b = {
                         'id': a,
-                        'percent': 2.614
+                        'percent': 1.346
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Savage Response":
                     b = {
                         'id': a,
-                        'percent': 3.150
+                        'percent': 1.282
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Seeker Runes":
                     b = {
                         'id': a,
-                        'percent': 3.541
+                        'percent': 1.231
                         }
                     brand_damage.append(b)
+                if a['text'] == "1 Added Passive Skill is Self-Control":
+                    b = {
+                        'id': a,
+                        'percent': 1.346
+                        }
+                    aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Self-Fulfilling Prophecy":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 0.990
                         }
                     herald.append(b)
                 if a['text'] == "1 Added Passive Skill is Septic Spells":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Set and Forget":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 2.749
                         }
                     trap.append(b)
                 if a['text'] == "1 Added Passive Skill is Shrieking Bolts":
                     b = {
                         'id': a,
-                        'percent': 6.074
+                        'percent': 2.494
                         }
                     projectile.append(b)
                 if a['text'] == "1 Added Passive Skill is Skullbreaker":
                     b = {
                         'id': a,
-                        'percent': 1.573
+                        'percent': 0.480
                         }
                     crit_chance.append(b)
                 if a['text'] == "1 Added Passive Skill is Sleepless Sentries":
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.777
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Smoking Remains":
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Snaring Spirits":
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.070
                         }
                     totem.append(b)
                 if a['text'] == "1 Added Passive Skill is Special Reserve":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 3.027
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 10.003
+                        'percent': 4.987
                         }
                     flask_recovery.append(b)
                 if a['text'] == "1 Added Passive Skill is Spiked Concoction":
                     b = {
                         'id': a,
-                        'percent': 3.269
+                        'percent': 1.512
                         }
                     flask_duration.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.999
+                        'percent': 2.494
                         }
                     flask_recovery.append(b)
                 if a['text'] == "1 Added Passive Skill is Stalwart Commander":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 1.346
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Steady Torment":
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.365
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.362
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Stoic Focus":
                     b = {
                         'id': a,
-                        'percent': 11.727
+                        'percent': 5.080
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Stormrider":
                     b = {
                         'id': a,
-                        'percent': 2.500
+                        'percent': 0.856
                         }
                     ailment_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Streamlined":
                     b = {
                         'id': a,
-                        'percent': 12.145
+                        'percent': 4.987
                         }
                     projectile.append(b)
                 if a['text'] == "1 Added Passive Skill is Student of Decay":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
 
                     b = {
                         'id': a,
-                        'percent': 4.047
+                        'percent': 1.663
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.962
                         }
                     phys_dot.append(b)
+                if a['text'] == "1 Added Passive Skill is Sublime Form":
+                    b = {
+                        'id': a,
+                        'percent': 1.346
+                        }
+                    aura_effect.append(b)
+                if a['text'] == "1 Added Passive Skill is Summer Commander":
+                    b = {
+                        'id': a,
+                        'percent': 0.505
+                        }
+                    aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Surprise Sabotage":
                     b = {
                         'id': a,
-                        'percent': 6.538
+                        'percent': 2.749
                         }
                     trap.append(b)
+                if a['text'] == "1 Added Passive Skill is Tempt the Storm":
+                    b = {
+                        'id': a,
+                        'percent': 1.321
+                        }
+                    curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Titanic Swings":
                     b = {
                         'id': a,
-                        'percent': 6.074
+                        'percent': 2.749
                         }
                     area_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Towering Threat":
                     b = {
                         'id': a,
-                        'percent': 3.035
+                        'percent': 1.029
                         }
                     area_damage.append(b)
+                if a['text'] == "1 Added Passive Skill is Uncompromising":
+                    b = {
+                        'id': a,
+                        'percent': 1.346
+                        }
+                    aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Unwavering Focus":
                     b = {
                         'id': a,
-                        'percent': 5.862
+                        'percent': 2.541
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Unwaveringly Evil":
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent':1.952
                         }
                     chaos_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Vast Power":
                     b = {
                         'id': a,
-                        'percent': 6.074
+                        'percent': 2.749
                         }
                     area_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Vengeful Commander":
                     b = {
                         'id': a,
-                        'percent': 5.232
+                        'percent': 2.693
                         }
                     aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Victim Maker":
                     b = {
                         'id': a,
-                        'percent': 5.313
+                        'percent': 1.321
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Vile Reinvigoration":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.251
+                        'percent': 1.336
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 4.047
+                        'percent': 1.663
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.266
+                        'percent': 1.027
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.962
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Vital Focus":
                     b = {
                         'id': a,
-                        'percent': 11.727
+                        'percent': 5.080
                         }
                     channeling_skill_damage.append(b)
                 if a['text'] == "1 Added Passive Skill is Vivid Hues":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.962
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Warning Call":
                     b = {
                         'id': a,
-                        'percent': 2.933
+                        'percent': 0.917
                         }
                     warcry.append(b)
                 if a['text'] == "1 Added Passive Skill is Wasting Affliction":
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.365
                         }
                     chaos_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.125
+                        'percent': 0.501
                         }
                     cold_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 2.023
+                        'percent': 0.623
                         }
                     dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.135
+                        'percent': 0.384
                         }
                     fire_dot.append(b)
                     b = {
                         'id': a,
-                        'percent': 1.182
+                        'percent': 0.362
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Whispers of Death":
                     b = {
                         'id': a,
-                        'percent': 10.627
+                        'percent': 2.639
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Wicked Pall":
                     b = {
                         'id': a,
-                        'percent': 2.363
+                        'percent': 0.976
                         }
                     chaos_dot.append(b)
+                if a['text'] == "1 Added Passive Skill is Winter Commander":
+                    b = {
+                        'id': a,
+                        'percent': 0.505
+                        }
+                    aura_effect.append(b)
                 if a['text'] == "1 Added Passive Skill is Wish for Death":
                     b = {
                         'id': a,
-                        'percent': 5.313
+                        'percent': 1.321
                         }
                     curse.append(b)
                 if a['text'] == "1 Added Passive Skill is Wound Aggravation":
                     b = {
                         'id': a,
-                        'percent': 4.722
+                        'percent': 1.924
                         }
                     phys_dot.append(b)
                 if a['text'] == "1 Added Passive Skill is Wrapped in Flame":
                     b = {
                         'id': a,
-                        'percent': 1.135
+                        'percent': 0.384
                         }
                     fire_dot.append(b)
 

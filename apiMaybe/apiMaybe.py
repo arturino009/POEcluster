@@ -16,7 +16,7 @@ lists = list_categories.make_lists()
 
 #wasting_aff = 'explicit.stat_2066820199'
 #vivid_hues = 'explicit.stat_3957006524'
-current_exa_price = 146                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
+current_exa_price = 137                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
 
 
 #list of all values that I will get
@@ -61,7 +61,7 @@ for a in lists:
         time.sleep(0.4)
         
         #send the request to API
-        response = requests.post('https://www.pathofexile.com/api/trade/search/Delirium', json=data_set)
+        response = requests.post('https://www.pathofexile.com/api/trade/search/Harvest', json=data_set)
         response = response.json()
         result = response['result']
         id = response['id']
@@ -87,12 +87,12 @@ for a in lists:
         results_json = request.json()
         
         #probability to get an item while crafting. Formula is mostly correct
-        probability = b[0]['percent'] * b[1]['percent'] / 25
+        probability = b[0]['percent'] * b[1]['percent'] / 19.2
         #get number of tries to get item
         tries = 100 / probability   
 
         #approximate cost of 1 try
-        cost_of_try = 0.4
+        cost_of_try = 0.36
 
         #price to create an item (approximate)
         price = tries * cost_of_try
@@ -115,7 +115,7 @@ for a in lists:
             if(p['listing']['price'] != None):
                 count = count + 1   
                 #conversion for some more valuable currency
-                if(p['listing']['price']['currency'] == "exa"):
+                if(p['listing']['price']['currency'] == "exalted"):
                     p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_exa_price
                     p['listing']['price']['currency'] = "chaos"
                 if(p['listing']['price']['currency'] == "chaos"):
