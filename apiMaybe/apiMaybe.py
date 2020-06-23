@@ -171,7 +171,7 @@ current_sort = list()
 current_sort = all_averages
 
 def open_link(q):
-    webbrowser.open('https://www.pathofexile.com/trade/search/Delirium/' + current_sort[q]['id'])
+    webbrowser.open('https://www.pathofexile.com/trade/search/Harvest/' + current_sort[q]['id'])
 
 
 #section for creating Tkinter window
