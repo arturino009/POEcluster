@@ -72,7 +72,6 @@ for filename in os.listdir(os.getcwd() + location):
             'notables': a
             }
         all_lists.append(c)
-        break
 
 
 #start the timer for program execution
