@@ -1,4 +1,3 @@
-
 import requests                     #so I can send POST and GET requests to webpages
 import time                         #so I can make a time delay
 from itertools import combinations  #so I get all possible combinations of elements in a list
@@ -63,7 +62,7 @@ for filename in os.listdir(os.getcwd() + location):
             filename = filename[:-5]
         with open('stats.json') as json_file:
                 data = json.load(json_file)
-                for i in data['result'][4]['entries'][0]['option']['options']:
+                for i in data['result'][4]['entries'][1]['option']['options']:
                     if i['text'] == codecs.decode(filename, 'unicode_escape'):
                         id = i['id']
                         break
@@ -73,26 +72,31 @@ for filename in os.listdir(os.getcwd() + location):
             'notables': a
             }
         all_lists.append(c)
+        break
 
 
 #start the timer for program execution
 start_time = time.time()
 
 acceptable_listings = 10
-
-session = HTMLSession()
-resp = session.get("https://poe.ninja/challenge/currency/exalted-orb")
-resp.html.render()
-soup = BeautifulSoup(resp.html.html, "lxml")
-res = soup.find_all("span", class_="currency-amount")
-current_exa_price = round(float(res[0].contents[0]))                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
-
-session = HTMLSession()
-resp = session.get("https://poe.ninja/challenge/currency/orb-of-alchemy")
-resp.html.render()
-soup = BeautifulSoup(resp.html.html, "lxml")
-res = soup.find_all("span", class_="currency-amount")
-current_alch_price = round(1/float(res[1].contents[0]),2)
+try:
+    session = HTMLSession()
+    resp = session.get("https://poe.ninja/challenge/currency/exalted-orb")
+    resp.html.render()
+    soup = BeautifulSoup(resp.html.html, "lxml")
+    res = soup.find_all("span", class_="currency-amount")
+    current_exa_price = round(float(res[0].contents[0]))                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
+except:
+    current_exa_price = 62
+try:
+    session = HTMLSession()
+    resp = session.get("https://poe.ninja/challenge/currency/orb-of-alchemy")
+    resp.html.render()
+    soup = BeautifulSoup(resp.html.html, "lxml")
+    res = soup.find_all("span", class_="currency-amount")
+    current_alch_price = round(1/float(res[1].contents[0]),2)
+except:
+    current_alch_price = 0.2
 
 def get_category_jewel_price(a):
     data_set = {        #structure for API request. All info from https://www.reddit.com/r/pathofexiledev/comments/7aiil7/how_to_make_your_own_queries_against_the_official/ . Absolutely no other documentation
@@ -134,10 +138,14 @@ def get_category_jewel_price(a):
     }
     #send the request to API
     print("Sending request...")
-    response = requests.post('https://www.pathofexile.com/api/trade/search/Harvest', json=data_set)
-    response = response.json()
-    print("Got response!")
-
+    try:
+        response = requests.post('https://www.pathofexile.com/api/trade/search/Heist', json=data_set)
+        response = response.json()
+        print("Got response!")
+    except Exception as e:
+        print(e)
+        print("Waiting 60 seconds.") 
+        time.sleep(60)
     result = response['result']
     id = response['id']
     size = response['total']
@@ -227,9 +235,14 @@ for a in all_lists:
         time.sleep(0.4)
         #send the request to API
         print("Sending request...")
-        response = requests.post('https://www.pathofexile.com/api/trade/search/Harvest', json=data_set)
-        response = response.json()
-        print("Got response!")
+        try:
+            response = requests.post('https://www.pathofexile.com/api/trade/search/Heist', json=data_set)
+            response = response.json()
+            print("Got response!")
+        except Exception as e:
+            print(e)
+            print("Waiting 60 seconds.") 
+            time.sleep(60)
 
         result = response['result']
         id = response['id']
@@ -316,6 +329,7 @@ for a in all_lists:
             }
         all_averages.append(x)
         medium.clear()
+
 #lists made for sorting
 sorted_list_count = list()
 sorted_list_tries = list()
@@ -336,7 +350,7 @@ current_sort = list()
 current_sort = all_averages
 
 def open_link(q):
-    webbrowser.open('https://www.pathofexile.com/trade/search/Harvest/' + current_sort[q]['id'])
+    webbrowser.open('https://www.pathofexile.com/trade/search/Heist/' + current_sort[q]['id'])
 
 #replacing the listbox with requested sort
 def sort_items(given_list):
@@ -360,7 +374,7 @@ def update():
     b = current_sort[a]
     jewel_price = get_category_jewel_price(b['category_full'])
     print("Sending request...")
-    response = requests.post('https://www.pathofexile.com/api/trade/search/Harvest', json=b['request'])
+    response = requests.post('https://www.pathofexile.com/api/trade/search/Heist', json=b['request'])
     response = response.json()
     print("Got response!")
 
