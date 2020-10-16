@@ -11,6 +11,7 @@ import os
 import json
 import ctypes
 import codecs
+import math
 
 def toggle_console(a):
     #hiding the console
@@ -81,21 +82,87 @@ acceptable_listings = 10
 try:
     session = HTMLSession()
     resp = session.get("https://poe.ninja/challenge/currency/exalted-orb")
-    resp.html.render()
+    resp.html.render(sleep=2)
     soup = BeautifulSoup(resp.html.html, "lxml")
     res = soup.find_all("span", class_="currency-amount")
     current_exa_price = round(float(res[0].contents[0]))                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
+    print("Exalt price: " + str(current_exa_price))
 except:
     current_exa_price = 62
+    print("Couldn't get exalt info from poe.ninja. Using default value: " + str(current_exa_price))
+
 try:
     session = HTMLSession()
     resp = session.get("https://poe.ninja/challenge/currency/orb-of-alchemy")
-    resp.html.render()
+    resp.html.render(sleep=2)
     soup = BeautifulSoup(resp.html.html, "lxml")
     res = soup.find_all("span", class_="currency-amount")
-    current_alch_price = round(1/float(res[1].contents[0]),2)
+    current_alch_price = round(1/float(res[1].contents[0]),3)
+    print("Alch price: " + str(current_alch_price))
 except:
-    current_alch_price = 0.2
+    current_alch_price = 0.20
+    print("Couldn't get alch info from poe.ninja. Using default value: " + str(current_alch_price))
+
+try:
+    session = HTMLSession()
+    resp = session.get("https://poe.ninja/challenge/currency/orb-of-alteration")
+    resp.html.render(sleep=2)
+    soup = BeautifulSoup(resp.html.html, "lxml")
+    res = soup.find_all("span", class_="currency-amount")
+    current_alt_price = round(1/float(res[1].contents[0]),3)
+    print("Alt price: " + str(current_alt_price))
+except:
+    current_alt_price = 0.21
+    print("Couldn't get alt info from poe.ninja. Using default value: " + str(current_alt_price))
+
+try:
+    session = HTMLSession()
+    resp = session.get("https://poe.ninja/challenge/currency/orb-of-augmentation")
+    resp.html.render(sleep=2)
+    soup = BeautifulSoup(resp.html.html, "lxml")
+    res = soup.find_all("span", class_="currency-amount")
+    current_aug_price = round(1/float(res[1].contents[0]),3)
+    print("Aug price: " + str(current_aug_price))
+except:
+    current_aug_price = 0.08
+    print("Couldn't get aug info from poe.ninja. Using default value: " + str(current_aug_price))
+
+# try:
+#     session = HTMLSession()
+#     resp = session.get("https://poe.ninja/challenge/currency/regal-orb")
+#     resp.html.render(sleep=2)
+#     soup = BeautifulSoup(resp.html.html, "lxml")
+#     res = soup.find_all("span", class_="currency-amount")
+#     current_regal_price = round(1/float(res[1].contents[0]),3)
+#     print("Regal price: " + str(current_regal_price))
+# except:
+#     current_regal_price = 0.13
+#     print("Couldn't get regal info from poe.ninja. Using default value: " + str(current_regal_price))
+
+# try:
+#     session = HTMLSession()
+#     resp = session.get("https://poe.ninja/challenge/currency/orb-of-scouring")
+#     resp.html.render(sleep=2)
+#     soup = BeautifulSoup(resp.html.html, "lxml")
+#     res = soup.find_all("span", class_="currency-amount")
+#     current_scour_price = round(1/float(res[1].contents[0]),3)
+#     print("Scour price: " + str(current_scour_price))
+# except:
+#     current_scour_price = 0.43
+#     print("Couldn't get scour info from poe.ninja. Using default value: " + str(current_scour_price))
+
+# try:
+#     session = HTMLSession()
+#     resp = session.get("https://poe.ninja/challenge/currency/orb-of-transmutation")
+#     resp.html.render(sleep=2)
+#     soup = BeautifulSoup(resp.html.html, "lxml")
+#     res = soup.find_all("span", class_="currency-amount")
+#     current_trans_price = round(1/float(res[1].contents[0]),3)
+#     print("Trans price: " + str(current_trans_price))
+# except:
+#     current_trans_price = 0.04
+#     print("Couldn't get trans info from poe.ninja. Using default value: " + str(current_trans_price))
+
 
 def get_category_jewel_price(a):
     data_set = {        #structure for API request. All info from https://www.reddit.com/r/pathofexiledev/comments/7aiil7/how_to_make_your_own_queries_against_the_official/ . Absolutely no other documentation
@@ -271,16 +338,18 @@ for a in all_lists:
         #probability to get an item while crafting. Formula is mostly correct
         if query == 1:
             probability = b['prefix']
-            cost_of_try = 0.25
+            cost_of_try = 0.25 * current_aug_price + current_alt_price
         else:
-            probability = b[0]['weight'] * b[1]['weight'] / 19.2
+            probability = (b[0]['weight'] * b[1]['prefix'] + b[1]['weight'] * b[0]['prefix'])/100
             cost_of_try = 0.3
 
         #get number of tries to get item
-        tries = 100 / probability   
+        tries = math.ceil(100 / probability)
 
         #price to create an item (approximate)
         craft_price = tries * cost_of_try
+
+        craft_and_jewel_price = craft_price + jewel_price
 
         #list to hold all prices of an item. Later used to calculate medium price
         medium = list()
@@ -307,15 +376,16 @@ for a in all_lists:
         #get the average median of all listed prices for an item
         avg = statistics.median_grouped(medium)
         #profit margin 
-        profit = avg - craft_price - jewel_price
+        profit = avg - craft_and_jewel_price
         PPT = profit/tries
         first = (medium[0]+medium[1])/2
-        LPPT = (first - craft_price - jewel_price)/tries
+        LPPT = (first - craft_and_jewel_price)/tries
         print("The average median is ", round(avg,2), "     Profit:", round(profit,2), '\n')
         x = {
             'name': b['name'] if query == 1 else (b[0]['name'] + " and " + b[1]['name']),
             'listings': size,
             'tries': round(tries),
+            'craft': round(craft_and_jewel_price, 2),
             'first': round(first,2),
             'average': round(avg,2),
             'profit': round(profit,2),
@@ -357,7 +427,7 @@ def sort_items(given_list):
     global current_sort
     current_sort = given_list
     for item in given_list:
-        treeview.insert(END,item['name'],item['listings'],item['tries'],item['first'],item['average'],item['profit'],item['PPT'], item['LPPT'], item['category'])
+        treeview.insert(END,item['name'],item['listings'],item['tries'], item['craft'],item['first'],item['average'],item['profit'],item['PPT'], item['LPPT'], item['category'])
 
 
 def update():
@@ -408,6 +478,8 @@ def update():
     #price to create an item (approximate)
     craft_price = b['tries'] * cost_of_try
 
+    craft_and_jewel_price = craft_price + jewel_price
+
     #list to hold all prices of an item. Later used to calculate medium price
     medium = list()
 
@@ -429,15 +501,16 @@ def update():
     #get the average median of all listed prices for an item
     avg = statistics.median_grouped(medium)
     #profit margin 
-    profit = avg - craft_price - jewel_price
+    profit = avg - craft_and_jewel_price
     PPT = profit/b['tries']
     first = (medium[0]+medium[1])/2
-    LPPT = (first - craft_price - jewel_price)/b['tries']
+    LPPT = (first - craft_and_jewel_price)/b['tries']
     print("The average median is ", round(avg,2), "     Profit:", round(profit,2), '\n')
     x = {
         'name': b['name'],
         'listings': size,
         'tries': b['tries'],
+        'craft': round(craft_and_jewel_price, 2),
         'first': round(first,2),
         'average': round(avg,2),
         'profit': round(profit,2),
@@ -474,10 +547,10 @@ treeview = streeview.listbox
 
 
 treeview.focus_set()
-treeview.config(columns=('Name', 'Listings','Tries','First','AVG price','Profit','PPT', 'LPPT', 'Category'), command=open_link)
+treeview.config(columns=('Name', 'Listings','Tries', 'Craft','First','AVG price','Profit','PPT', 'LPPT', 'Category'), command=open_link)
 
 for item in all_averages:
-    treeview.insert(END,item['name'],item['listings'],item['tries'],item['first'],item['average'],item['profit'],item['PPT'], item['LPPT'], item['category'])
+    treeview.insert(END,item['name'],item['listings'],item['tries'], item['craft'],item['first'],item['average'],item['profit'],item['PPT'], item['LPPT'], item['category'])
 
 
 
