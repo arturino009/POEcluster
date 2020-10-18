@@ -127,41 +127,42 @@ except:
     current_aug_price = 0.08
     print("Couldn't get aug info from poe.ninja. Using default value: " + str(current_aug_price))
 
-# try:
-#     session = HTMLSession()
-#     resp = session.get("https://poe.ninja/challenge/currency/regal-orb")
-#     resp.html.render(sleep=2)
-#     soup = BeautifulSoup(resp.html.html, "lxml")
-#     res = soup.find_all("span", class_="currency-amount")
-#     current_regal_price = round(1/float(res[1].contents[0]),3)
-#     print("Regal price: " + str(current_regal_price))
-# except:
-#     current_regal_price = 0.13
-#     print("Couldn't get regal info from poe.ninja. Using default value: " + str(current_regal_price))
+if query == 2:
+    try:
+        session = HTMLSession()
+        resp = session.get("https://poe.ninja/challenge/currency/regal-orb")
+        resp.html.render(sleep=2)
+        soup = BeautifulSoup(resp.html.html, "lxml")
+        res = soup.find_all("span", class_="currency-amount")
+        current_regal_price = round(1/float(res[1].contents[0]),3)
+        print("Regal price: " + str(current_regal_price))
+    except:
+        current_regal_price = 0.13
+        print("Couldn't get regal info from poe.ninja. Using default value: " + str(current_regal_price))
 
-# try:
-#     session = HTMLSession()
-#     resp = session.get("https://poe.ninja/challenge/currency/orb-of-scouring")
-#     resp.html.render(sleep=2)
-#     soup = BeautifulSoup(resp.html.html, "lxml")
-#     res = soup.find_all("span", class_="currency-amount")
-#     current_scour_price = round(1/float(res[1].contents[0]),3)
-#     print("Scour price: " + str(current_scour_price))
-# except:
-#     current_scour_price = 0.43
-#     print("Couldn't get scour info from poe.ninja. Using default value: " + str(current_scour_price))
+    try:
+        session = HTMLSession()
+        resp = session.get("https://poe.ninja/challenge/currency/orb-of-scouring")
+        resp.html.render(sleep=2)
+        soup = BeautifulSoup(resp.html.html, "lxml")
+        res = soup.find_all("span", class_="currency-amount")
+        current_scour_price = round(1/float(res[1].contents[0]),3)
+        print("Scour price: " + str(current_scour_price))
+    except:
+        current_scour_price = 0.43
+        print("Couldn't get scour info from poe.ninja. Using default value: " + str(current_scour_price))
 
-# try:
-#     session = HTMLSession()
-#     resp = session.get("https://poe.ninja/challenge/currency/orb-of-transmutation")
-#     resp.html.render(sleep=2)
-#     soup = BeautifulSoup(resp.html.html, "lxml")
-#     res = soup.find_all("span", class_="currency-amount")
-#     current_trans_price = round(1/float(res[1].contents[0]),3)
-#     print("Trans price: " + str(current_trans_price))
-# except:
-#     current_trans_price = 0.04
-#     print("Couldn't get trans info from poe.ninja. Using default value: " + str(current_trans_price))
+    try:
+        session = HTMLSession()
+        resp = session.get("https://poe.ninja/challenge/currency/orb-of-transmutation")
+        resp.html.render(sleep=2)
+        soup = BeautifulSoup(resp.html.html, "lxml")
+        res = soup.find_all("span", class_="currency-amount")
+        current_trans_price = round(1/float(res[1].contents[0]),3)
+        print("Trans price: " + str(current_trans_price))
+    except:
+        current_trans_price = 0.04
+        print("Couldn't get trans info from poe.ninja. Using default value: " + str(current_trans_price))
 
 
 def get_category_jewel_price(a):
@@ -338,16 +339,22 @@ for a in all_lists:
         #probability to get an item while crafting. Formula is mostly correct
         if query == 1:
             probability = b['prefix']
-            cost_of_try = 0.25 * current_aug_price + current_alt_price
+            tries = math.ceil(100 / probability)
+            alt_count = tries
+            aug_count = math.ceil(alt_count/4)
+            craft_price = alt_count * current_alt_price + aug_count * current_aug_price
+
         else:
             probability = (b[0]['weight'] * b[1]['prefix'] + b[1]['weight'] * b[0]['prefix'])/100
-            cost_of_try = 0.3
-
-        #get number of tries to get item
-        tries = math.ceil(100 / probability)
-
-        #price to create an item (approximate)
-        craft_price = tries * cost_of_try
+            probability_first = (b[0]['prefix'] + b[1]['prefix'])/100
+            probability_second = probability/probability_first
+            tries = math.ceil(100 / probability)
+            regal_count = math.ceil(1/probability_second)
+            scour_count = regal_count - 1
+            trans_count = regal_count - 1
+            alt_count = tries - trans_count
+            aug_count = math.ceil(tries/2.12)
+            craft_price = alt_count * current_alt_price + aug_count * current_aug_price + regal_count * current_regal_price + scour_count * current_scour_price + trans_count * current_trans_price
 
         craft_and_jewel_price = craft_price + jewel_price
 
@@ -385,7 +392,7 @@ for a in all_lists:
             'name': b['name'] if query == 1 else (b[0]['name'] + " and " + b[1]['name']),
             'listings': size,
             'tries': round(tries),
-            'craft': round(craft_and_jewel_price, 2),
+            'craft': round(craft_price, 2),
             'first': round(first,2),
             'average': round(avg,2),
             'profit': round(profit,2),
@@ -475,15 +482,12 @@ def update():
     request = requests.get(address)
     results_json = request.json()
 
-    #price to create an item (approximate)
-    craft_price = b['tries'] * cost_of_try
-
-    craft_and_jewel_price = craft_price + jewel_price
+    craft_and_jewel_price = b['craft'] + jewel_price
 
     #list to hold all prices of an item. Later used to calculate medium price
     medium = list()
 
-    print(b['name'] + ": " + " Cost for rerolls: " + str(round(craft_price,2))+ " Tries: " + str(round(b['tries'])))
+    print(b['name'] + ": " + " Cost for rerolls: " + str(round(b['craft'],2))+ " Tries: " + str(round(b['tries'])))
     print('Listings:' + str(size))
         
     for p in results_json['result']:
@@ -510,7 +514,7 @@ def update():
         'name': b['name'],
         'listings': size,
         'tries': b['tries'],
-        'craft': round(craft_and_jewel_price, 2),
+        'craft': b['craft'],
         'first': round(first,2),
         'average': round(avg,2),
         'profit': round(profit,2),
@@ -566,6 +570,6 @@ button6 = Button(root,text="Sort by PPT", command=lambda:sort_items(sorted_list_
 button7 = Button(root,text="Sort by LPPT", command=lambda:sort_items(sorted_list_lppt)).grid(column=6, row=1)
 button8 = Button(root,text="Refresh", command=lambda:update()).grid(column=7, row=1)
 
-toggle_console(0)
+# toggle_console(0)
 
 root.mainloop()
