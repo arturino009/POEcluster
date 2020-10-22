@@ -90,6 +90,7 @@ try:
     res = soup.find_all("span", class_="currency-amount")
     current_exa_price = round(float(res[0].contents[0]))                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
     print("Exalt price: " + str(current_exa_price))
+    session.close()
 except:
     current_exa_price = 30
     print("Couldn't get exalt info from poe.ninja. Using default value: " + str(current_exa_price))
@@ -102,6 +103,7 @@ try:
     res = soup.find_all("span", class_="currency-amount")
     current_alch_price = round(1/float(res[1].contents[0]),3)
     print("Alch price: " + str(current_alch_price))
+    session.close()
 except:
     current_alch_price = 0.20
     print("Couldn't get alch info from poe.ninja. Using default value: " + str(current_alch_price))
@@ -114,6 +116,7 @@ try:
     res = soup.find_all("span", class_="currency-amount")
     current_alt_price = round(1/float(res[1].contents[0]),3)
     print("Alt price: " + str(current_alt_price))
+    session.close()
 except:
     current_alt_price = 0.21
     print("Couldn't get alt info from poe.ninja. Using default value: " + str(current_alt_price))
@@ -126,6 +129,7 @@ try:
     res = soup.find_all("span", class_="currency-amount")
     current_aug_price = round(1/float(res[1].contents[0]),3)
     print("Aug price: " + str(current_aug_price))
+    session.close()
 except:
     current_aug_price = 0.08
     print("Couldn't get aug info from poe.ninja. Using default value: " + str(current_aug_price))
@@ -139,6 +143,7 @@ if query == 2:
         res = soup.find_all("span", class_="currency-amount")
         current_regal_price = round(1/float(res[1].contents[0]),3)
         print("Regal price: " + str(current_regal_price))
+        session.close()
     except:
         current_regal_price = 0.13
         print("Couldn't get regal info from poe.ninja. Using default value: " + str(current_regal_price))
@@ -151,6 +156,7 @@ if query == 2:
         res = soup.find_all("span", class_="currency-amount")
         current_scour_price = round(1/float(res[1].contents[0]),3)
         print("Scour price: " + str(current_scour_price))
+        session.close()
     except:
         current_scour_price = 0.43
         print("Couldn't get scour info from poe.ninja. Using default value: " + str(current_scour_price))
@@ -163,6 +169,7 @@ if query == 2:
         res = soup.find_all("span", class_="currency-amount")
         current_trans_price = round(1/float(res[1].contents[0]),3)
         print("Trans price: " + str(current_trans_price))
+        session.close()
     except:
         current_trans_price = 0.04
         print("Couldn't get trans info from poe.ninja. Using default value: " + str(current_trans_price))
