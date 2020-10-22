@@ -12,6 +12,7 @@ Listing all the combinations of notables for medium cluster jewels can take up t
 * Index all the single notables for medium and small cluster jewels
 * Index all the possible combinations of notables for medium cluster jewels
 * Double click the selected jewel to open it in pathofexile.com/trade
+* Refresh the info about the selected notable
 * Prices for crafting the jewel
 * Profit calculations
 * Sorting 
