@@ -29,14 +29,17 @@ inp = 0
 if query == 1:
     print('Input 1 to check small cluster jewels, 2 for medium cluster jewels.') 
     inp = int(input())
-    location = "/data/small/" if inp == 1 else "/data/medium/"
+    location = "data/small/" if inp == 1 else "data/medium/"
 else:
-    location = "/data/medium/"
+    location = "data/medium/"
+
+script_dir = os.path.dirname(__file__)
+location = os.path.join(script_dir, location)
 
 all_lists = list()
 
-for filename in os.listdir(os.getcwd() + location):
-    with open(os.getcwd() + location + filename) as data_file:
+for filename in os.listdir(location):
+    with open(location + filename) as data_file:
         contents = data_file.read()
         soup = BeautifulSoup(contents, 'lxml')
         results = soup.findAll("div", {"modgrp" : "unique_notable"} if inp == 1 else {"modgrp" : re.compile("Notable")})
@@ -44,7 +47,7 @@ for filename in os.listdir(os.getcwd() + location):
         weightofaffix = soup.findAll("div", {"class": "tpct"})
         a = list() 
         for g in results:
-            with open('stats.json') as json_file:
+            with open(os.path.join(script_dir,'stats.json')) as json_file:
                 data = json.load(json_file)
                 for i in data['result'][1]['entries']:
                     if i['text'] == g.contents[0].text:
@@ -61,7 +64,7 @@ for filename in os.listdir(os.getcwd() + location):
             filename = filename.replace("@", '\\')[:-5]
         else:
             filename = filename[:-5]
-        with open('stats.json') as json_file:
+        with open(os.path.join(script_dir,'stats.json')) as json_file:
                 data = json.load(json_file)
                 for i in data['result'][4]['entries'][1]['option']['options']:
                     if i['text'] == codecs.decode(filename, 'unicode_escape'):
@@ -88,7 +91,7 @@ try:
     current_exa_price = round(float(res[0].contents[0]))                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
     print("Exalt price: " + str(current_exa_price))
 except:
-    current_exa_price = 62
+    current_exa_price = 30
     print("Couldn't get exalt info from poe.ninja. Using default value: " + str(current_exa_price))
 
 try:
