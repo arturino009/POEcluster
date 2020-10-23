@@ -456,7 +456,10 @@ def update():
     global sorted_list_ppt
     global sorted_list_lppt
     toggle_console(1)
-    a = treeview.curselection()[0]
+    try:
+        a = treeview.curselection()[0]
+    except:
+        return
     b = current_sort[a]
     jewel_price = get_category_jewel_price(b['category_full'])
     print("Sending request...")
@@ -580,6 +583,6 @@ button6 = Button(root,text="Sort by PPT", command=lambda:sort_items(sorted_list_
 button7 = Button(root,text="Sort by LPPT", command=lambda:sort_items(sorted_list_lppt)).grid(column=6, row=1)
 button8 = Button(root,text="Refresh", command=lambda:update()).grid(column=7, row=1)
 
-# toggle_console(0)
+toggle_console(0)
 
 root.mainloop()
