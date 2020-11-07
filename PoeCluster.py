@@ -15,6 +15,10 @@ import ctypes
 import codecs
 import math
 
+leagues = requests.get('http://api.pathofexile.com/leagues')
+leagues = leagues.json()
+current_league = leagues[4]['id']  #current challenge league
+
 def toggle_console(a):
     #hiding the console
     kernel32 = ctypes.WinDLL('kernel32')
@@ -85,7 +89,7 @@ start_time = time.time()
 
 acceptable_listings = 10
 
-response = get('https://poe.ninja/api/data/currencyoverview?league=Heist&type=Currency')
+response = get('https://poe.ninja/api/data/currencyoverview?league=' + current_league + '&type=Currency')
 currencies = load(response.text)['lines']
 
 rates = {
@@ -133,7 +137,7 @@ def get_category_jewel_price(a):
     #send the request to API
     print("Sending request...")
     try:
-        response = requests.post('https://www.pathofexile.com/api/trade/search/Heist', json=data_set)
+        response = requests.post('https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set)
         response = response.json()
         print("Got response!")
     except Exception as e:
@@ -230,7 +234,7 @@ for a in all_lists:
         #send the request to API
         print("Sending request...")
         try:
-            response = requests.post('https://www.pathofexile.com/api/trade/search/Heist', json=data_set)
+            response = requests.post('https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set)
             response = response.json()
             print("Got response!")
         except Exception as e:
@@ -353,7 +357,7 @@ current_sort = list()
 current_sort = all_averages
 
 def open_link(q):
-    webbrowser.open('https://www.pathofexile.com/trade/search/Heist/' + current_sort[q]['id'])
+    webbrowser.open('https://www.pathofexile.com/trade/search/' + current_league + '/' + current_sort[q]['id'])
 
 #replacing the listbox with requested sort
 def sort_items(given_list):
@@ -380,7 +384,7 @@ def update():
     b = current_sort[a]
     jewel_price = get_category_jewel_price(b['category_full'])
     print("Sending request...")
-    response = requests.post('https://www.pathofexile.com/api/trade/search/Heist', json=b['request'])
+    response = requests.post('https://www.pathofexile.com/api/trade/search/' + current_league, json=b['request'])
     response = response.json()
     print("Got response!")
 
