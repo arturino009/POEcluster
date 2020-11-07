@@ -67,15 +67,18 @@ pip install requests
 pip install statistics
 pip install bs4
 pip install requests_html
-
 ```
 
 Installing TkTreectrl:
+
 You will need 2 additional files: <https://sourceforge.net/projects/tktreectrl/> and <https://sourceforge.net/projects/tkintertreectrl/>
 
 Download this file: <https://sourceforge.net/projects/tkintertreectrl/>
+
 Extract it somewhere.
+
 Open terminal in extracted location.
+
 Run this:
 
 ```
@@ -83,7 +86,8 @@ python setup.py install
 
 ```
 
-Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl
+Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl.
+
 Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktreectrl/>
 
 ### Todos
