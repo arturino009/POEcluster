@@ -78,7 +78,6 @@ for filename in os.listdir(location):
             'notables': a
             }
         all_lists.append(c)
-    break
 
 
 #start the timer for program execution
