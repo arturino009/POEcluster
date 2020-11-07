@@ -56,7 +56,7 @@ PoeCluster uses a number of python libraries to work properly:
 
 ### Installation
 
-PoeCluster requires python to run. Tested  version 3.8.6.
+PoeCluster requires python to run. Tested  version 3.9.
 
 Install the dependencies and run run.bat or PoeCluster.py.
 
