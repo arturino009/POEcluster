@@ -62,13 +62,13 @@ Install the dependencies and run run.bat or PoeCluster.py.
 
 Dependencies are installed like this:
 
-python```
+```
 pip install requests
 pip install statistics
 pip install bs4
 pip install requests_html
 
-python```
+```
 
 Installing TkTreectrl:
 You will need 2 additional files: <https://sourceforge.net/projects/tktreectrl/> and <https://sourceforge.net/projects/tkintertreectrl/>
@@ -78,10 +78,10 @@ Extract it somewhere.
 Open terminal in extracted location.
 Run this:
 
-python```
+```
 python setup.py install
 
-python```
+```
 
 Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl
 Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktreectrl/>
