@@ -1,5 +1,4 @@
 import requests                     #so I can send POST and GET requests to webpages
-from requests import get
 import time                         #so I can make a time delay
 from itertools import combinations  #so I get all possible combinations of elements in a list
 import statistics                   #so i get averages and medians of lists
@@ -48,23 +47,22 @@ for filename in os.listdir(location):
     with open(location + filename) as data_file:
         contents = data_file.read()
         soup = BeautifulSoup(contents, 'lxml')
-        results = soup.findAll("div", {"modgrp" : "unique_notable"} if inp == 1 else {"modgrp" : re.compile("Notable")})
-        nameofcategory = soup.findAll("div", {"class": "choice med_shadow"})
-        weightofaffix = soup.findAll("div", {"class": "tpct"})
+        results = soup.findAll("div", {"modgrp" : "unique_notable"} if inp == 1 else {"ntiers" : "1"})
         a = list() 
         for g in results:
+            name = g.contents[0].contents[0].contents[0]
             with open(os.path.join(script_dir,'stats.json')) as json_file:
                 data = json.load(json_file)
                 for i in data['result'][1]['entries']:
-                    if i['text'] == g.contents[0].text:
+                    if i['text'] == name:
                         b = {
                             'id': i['id'],
-                            'name': g.contents[0].text,
+                            'name': name,
                             'prefix': float(g.contents[4].text[:-1]),
                             'weight': float(g.contents[5].text[:-1])
                             }
                         a.append(b)
-                        print(g.contents[0].text)
+                        print(name)
                         continue
         if "@" in filename:
             filename = filename.replace("@", '\\')[:-5]
@@ -89,7 +87,7 @@ start_time = time.time()
 
 acceptable_listings = 10
 
-response = get('https://poe.ninja/api/data/currencyoverview?league=' + current_league + '&type=Currency')
+response = requests.get('https://poe.ninja/api/data/currencyoverview?league=' + current_league + '&type=Currency')
 currencies = load(response.text)['lines']
 
 rates = {
