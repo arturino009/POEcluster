@@ -1,4 +1,5 @@
 import requests                     #so I can send POST and GET requests to webpages
+from requests import get
 import time                         #so I can make a time delay
 from itertools import combinations  #so I get all possible combinations of elements in a list
 import statistics                   #so i get averages and medians of lists
@@ -9,6 +10,7 @@ from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import os
 import json
+from json import loads as load
 import ctypes
 import codecs
 import math
@@ -76,104 +78,20 @@ for filename in os.listdir(location):
             'notables': a
             }
         all_lists.append(c)
+    break
 
 
 #start the timer for program execution
 start_time = time.time()
 
 acceptable_listings = 10
-try:
-    session = HTMLSession()
-    resp = session.get("https://poe.ninja/challenge/currency/exalted-orb")
-    resp.html.render(sleep=2)
-    soup = BeautifulSoup(resp.html.html, "lxml")
-    res = soup.find_all("span", class_="currency-amount")
-    current_exa_price = round(float(res[0].contents[0]))                                             #current exa price https://poe.ninja/challenge/currency/exalted-orb
-    print("Exalt price: " + str(current_exa_price))
-    session.close()
-except:
-    current_exa_price = 30
-    print("Couldn't get exalt info from poe.ninja. Using default value: " + str(current_exa_price))
 
-try:
-    session = HTMLSession()
-    resp = session.get("https://poe.ninja/challenge/currency/orb-of-alchemy")
-    resp.html.render(sleep=2)
-    soup = BeautifulSoup(resp.html.html, "lxml")
-    res = soup.find_all("span", class_="currency-amount")
-    current_alch_price = round(1/float(res[1].contents[0]),3)
-    print("Alch price: " + str(current_alch_price))
-    session.close()
-except:
-    current_alch_price = 0.20
-    print("Couldn't get alch info from poe.ninja. Using default value: " + str(current_alch_price))
+response = get('https://poe.ninja/api/data/currencyoverview?league=Heist&type=Currency')
+currencies = load(response.text)['lines']
 
-try:
-    session = HTMLSession()
-    resp = session.get("https://poe.ninja/challenge/currency/orb-of-alteration")
-    resp.html.render(sleep=2)
-    soup = BeautifulSoup(resp.html.html, "lxml")
-    res = soup.find_all("span", class_="currency-amount")
-    current_alt_price = round(1/float(res[1].contents[0]),3)
-    print("Alt price: " + str(current_alt_price))
-    session.close()
-except:
-    current_alt_price = 0.21
-    print("Couldn't get alt info from poe.ninja. Using default value: " + str(current_alt_price))
-
-try:
-    session = HTMLSession()
-    resp = session.get("https://poe.ninja/challenge/currency/orb-of-augmentation")
-    resp.html.render(sleep=2)
-    soup = BeautifulSoup(resp.html.html, "lxml")
-    res = soup.find_all("span", class_="currency-amount")
-    current_aug_price = round(1/float(res[1].contents[0]),3)
-    print("Aug price: " + str(current_aug_price))
-    session.close()
-except:
-    current_aug_price = 0.08
-    print("Couldn't get aug info from poe.ninja. Using default value: " + str(current_aug_price))
-
-if query == 2:
-    try:
-        session = HTMLSession()
-        resp = session.get("https://poe.ninja/challenge/currency/regal-orb")
-        resp.html.render(sleep=2)
-        soup = BeautifulSoup(resp.html.html, "lxml")
-        res = soup.find_all("span", class_="currency-amount")
-        current_regal_price = round(1/float(res[1].contents[0]),3)
-        print("Regal price: " + str(current_regal_price))
-        session.close()
-    except:
-        current_regal_price = 0.13
-        print("Couldn't get regal info from poe.ninja. Using default value: " + str(current_regal_price))
-
-    try:
-        session = HTMLSession()
-        resp = session.get("https://poe.ninja/challenge/currency/orb-of-scouring")
-        resp.html.render(sleep=2)
-        soup = BeautifulSoup(resp.html.html, "lxml")
-        res = soup.find_all("span", class_="currency-amount")
-        current_scour_price = round(1/float(res[1].contents[0]),3)
-        print("Scour price: " + str(current_scour_price))
-        session.close()
-    except:
-        current_scour_price = 0.43
-        print("Couldn't get scour info from poe.ninja. Using default value: " + str(current_scour_price))
-
-    try:
-        session = HTMLSession()
-        resp = session.get("https://poe.ninja/challenge/currency/orb-of-transmutation")
-        resp.html.render(sleep=2)
-        soup = BeautifulSoup(resp.html.html, "lxml")
-        res = soup.find_all("span", class_="currency-amount")
-        current_trans_price = round(1/float(res[1].contents[0]),3)
-        print("Trans price: " + str(current_trans_price))
-        session.close()
-    except:
-        current_trans_price = 0.04
-        print("Couldn't get trans info from poe.ninja. Using default value: " + str(current_trans_price))
-
+rates = {
+     c['currencyTypeName']: c['chaosEquivalent'] for c in currencies
+}
 
 def get_category_jewel_price(a):
     data_set = {        #structure for API request. All info from https://www.reddit.com/r/pathofexiledev/comments/7aiil7/how_to_make_your_own_queries_against_the_official/ . Absolutely no other documentation
@@ -251,10 +169,10 @@ def get_category_jewel_price(a):
     for p in results_json['result']:
         #conversion for some more valuable currency
         if(p['listing']['price']['currency'] == "exalted"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_exa_price
+            p['listing']['price']['amount'] = p['listing']['price']['amount'] * rates["Exalted Orb"]
             p['listing']['price']['currency'] = "chaos"
         elif(p['listing']['price']['currency'] == "alch"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_alch_price
+            p['listing']['price']['amount'] = p['listing']['price']['amount'] * rates["Orb of Alchemy"]
             p['listing']['price']['currency'] = "chaos"
         if(p['listing']['price']['currency'] == "chaos"):
             medium.append(p['listing']['price']['amount'])
@@ -352,7 +270,7 @@ for a in all_lists:
             tries = math.ceil(100 / probability)
             alt_count = tries
             aug_count = math.ceil(alt_count/4)
-            craft_price = alt_count * current_alt_price + aug_count * current_aug_price
+            craft_price = alt_count * rates["Orb of Alteration"] + aug_count * rates["Orb of Augmentation"]
 
         else:
             probability = (b[0]['weight'] * b[1]['prefix'] + b[1]['weight'] * b[0]['prefix'])/100
@@ -364,7 +282,7 @@ for a in all_lists:
             trans_count = regal_count - 1
             alt_count = tries - trans_count
             aug_count = math.ceil(tries/2.12)
-            craft_price = alt_count * current_alt_price + aug_count * current_aug_price + regal_count * current_regal_price + scour_count * current_scour_price + trans_count * current_trans_price
+            craft_price = alt_count * rates["Orb of Alteration"] + aug_count * rates["Orb of Augmentation"] + regal_count * rates["Regal Orb"] + scour_count * rates["Orb of Scouring"] + trans_count * rates["Orb of Transmutation"]
 
         craft_and_jewel_price = craft_price + jewel_price
 
@@ -381,10 +299,10 @@ for a in all_lists:
         for p in results_json['result']:
             #conversion for some more valuable currency
             if(p['listing']['price']['currency'] == "exalted"):
-                p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_exa_price
+                p['listing']['price']['amount'] = p['listing']['price']['amount'] * rates["Exalted Orb"]
                 p['listing']['price']['currency'] = "chaos"
             elif(p['listing']['price']['currency'] == "alch"):
-                p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_alch_price
+                p['listing']['price']['amount'] = p['listing']['price']['amount'] * rates["Orb of Alchemy"]
                 p['listing']['price']['currency'] = "chaos"
             if(p['listing']['price']['currency'] == "chaos"):
                 medium.append(p['listing']['price']['amount'])
@@ -506,10 +424,10 @@ def update():
     for p in results_json['result']:
         #conversion for some more valuable currency
         if(p['listing']['price']['currency'] == "exalted"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_exa_price
+            p['listing']['price']['amount'] = p['listing']['price']['amount'] * rates["Exalted Orb"]
             p['listing']['price']['currency'] = "chaos"
         elif(p['listing']['price']['currency'] == "alch"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * current_alch_price
+            p['listing']['price']['amount'] = p['listing']['price']['amount'] * rates["Orb of Alchemy"]
             p['listing']['price']['currency'] = "chaos"
         if(p['listing']['price']['currency'] == "chaos"):
             medium.append(p['listing']['price']['amount'])
@@ -572,16 +490,16 @@ for item in all_averages:
 
 
 result_time = round(time.time() - start_time, 3)
-time_label = Label(root, text="Executed in " + str(result_time) + " seconds").grid(column=0)
+Label(root, text="Executed in " + str(result_time) + " seconds").grid(column=0)
 
 #sadly i didn't find a way to execute a function when pressing the column name, so I have to resort to manual sorting with buttons
-button2 = Button(root,text="Sort by listings", command=lambda:sort_items(sorted_list_count)).grid(column=1, row=1)
-button3 = Button(root,text="Sort by tries", command=lambda:sort_items(sorted_list_tries)).grid(column=2, row=1)
-button4 = Button(root,text="Sort by price", command=lambda:sort_items(sorted_list_price)).grid(column=3, row=1)
-button5 = Button(root,text="Sort by profit", command=lambda:sort_items(sorted_list_profit)).grid(column=4, row=1)
-button6 = Button(root,text="Sort by PPT", command=lambda:sort_items(sorted_list_ppt)).grid(column=5, row=1)
-button7 = Button(root,text="Sort by LPPT", command=lambda:sort_items(sorted_list_lppt)).grid(column=6, row=1)
-button8 = Button(root,text="Refresh", command=lambda:update()).grid(column=7, row=1)
+Button(root,text="Sort by listings", command=lambda:sort_items(sorted_list_count)).grid(column=1, row=1)
+Button(root,text="Sort by tries", command=lambda:sort_items(sorted_list_tries)).grid(column=2, row=1)
+Button(root,text="Sort by price", command=lambda:sort_items(sorted_list_price)).grid(column=3, row=1)
+Button(root,text="Sort by profit", command=lambda:sort_items(sorted_list_profit)).grid(column=4, row=1)
+Button(root,text="Sort by PPT", command=lambda:sort_items(sorted_list_ppt)).grid(column=5, row=1)
+Button(root,text="Sort by LPPT", command=lambda:sort_items(sorted_list_lppt)).grid(column=6, row=1)
+Button(root,text="Refresh", command=lambda:update()).grid(column=7, row=1)
 
 toggle_console(0)
 
