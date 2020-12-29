@@ -92,14 +92,14 @@ Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktr
 
 ### Todos
 
-* Refactor code. It's all in one file and could be a lot more readable.
+* ~~Refactor code. It's all in one file and could be a lot more readable.~~
 
-* Add auto update for data files. Currently I have to manually download all cluster pages from craftofexile.com every league / every update to cluster jewels. Also automatically download the stats.json file every new league from <https://www.pathofexile.com/api/trade/data/stats>. Also auto update current league.
-* Change crafting process from mod % to actual mod weights. It will be more accurate, and I could just get all info from poedb.tw instead of craftofexile.com.
+* ~~Add auto update for data files. Currently I have to manually download all cluster pages from craftofexile.com every league / every update to cluster jewels. Also automatically download the stats.json file every new league from <https://www.pathofexile.com/api/trade/data/stats>. Also auto update current league.~~
+* ~~Change crafting process from mod % to actual mod weights. It will be more accurate, and I could just get all info from poedb.tw instead of craftofexile.com.~~
 * Replace TktreeCtrl. It was kinda difficult to install and I couldn't figure out how to sort rows by pressing the collumn header (that's why I have buttons and I just have a different list for each button).
-* Figure out the exact way craftofexile.com calculates augmentation orb count when crafting double prefix cluster jewels with alt+aug+regal. Other currencies I figured out correctly as far as I can tell.
-* Remove all data pages completely. Currently it parses all the downloaded pages for cluster jewels at the start of each run and it isn't efficient. I just need to add all the necessary info about cluster jewels into one/multiple files and read from there. Probably implement together with auto-update, so it just updates this file instead of downloading all the fully-JS-rendered webpages about cluster jewels every new league.
+* ~~Figure out the exact way craftofexile.com calculates augmentation orb count when crafting double prefix cluster jewels with alt+aug+regal. Other currencies I figured out correctly as far as I can tell.~~
+* ~~Remove all data pages completely. Currently it parses all the downloaded pages for cluster jewels at the start of each run and it isn't efficient. I just need to add all the necessary info about cluster jewels into one/multiple files and read from there. Probably implement together with auto-update, so it just updates this file instead of downloading all the fully-JS-rendered webpages about cluster jewels every new league.~~
 * Improve speed of execution? Probably impossible, because pathofexile.com/trade rate-limit already is the limiting factor.
-* Add ILVL's of notables/clusters in the calculations. That's a lot of work, but the calculations might be more accurate. Also maybe add the calculations of prices for jewels with different number of passives.
+* ~~Add ILVL's of notables/clusters in the calculations. That's a lot of work, but the calculations might be more accurate.~~ Also maybe add the calculations of prices for jewels with different number of passives.
 * Add calculations for just the notable without the category. Some notables share categories, and people sometimes don't care about the base enchant of the cluster.
 * Create an .exe file so all the dependencies would be included? I don't know if that's really possible
