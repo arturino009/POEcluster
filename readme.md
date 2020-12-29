@@ -47,11 +47,9 @@ PoeCluster uses a number of python libraries to work properly:
 * TkTreectrl - addon for tkinter, so I can create table with multiple columns
 * webbrowser - open links
 * bs4 - parse html and find necessary items
-* requests_html - render JS pages
 * os - some commands for os
 * json - parse json file
 * ctypes - to hide console
-* codecs - some nasty unicode conversion
 * math - just to use ceil()
 
 ### Installation
@@ -66,7 +64,6 @@ Dependencies are installed like this:
 pip install requests
 pip install statistics
 pip install bs4
-pip install requests_html
 ```
 
 Installing TkTreectrl:
