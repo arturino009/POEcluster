@@ -40,8 +40,9 @@ def update():
         a = treeview.curselection()[0]
     except:
         return
+    jewel_price = priceGetter.get_category_jewel_price(all_averages[a]['category_full'], all_averages[a]['ilvl'])
     all_averages[a] = priceGetter.getNotablePrice(
-        all_averages[a]['category_full'], all_averages[a]['notable_full'], query, inp)
+        all_averages[a]['category_full'], all_averages[a]['notable_full'], query, inp, jewel_price)
     refreshList()
     toggle_console(0)
 
@@ -78,6 +79,8 @@ try:
     # start the timer for program execution
     start_time = time.time()
 
+    levelBreakpoints = [1,50,68,75]
+
     # list of all values that I will get
     all_averages = list()
     for a in all_lists:
@@ -86,11 +89,27 @@ try:
         else:
             # make a list of all possible combinations of items in each category
             comb = list(combinations(a['clusterNotables'], 2))
+        lvlPrice = list()
+        for lvl in levelBreakpoints:
+            x = {
+                'lvl': lvl,
+                'price': priceGetter.get_category_jewel_price(a, lvl)
+            }
+            lvlPrice.append(x)
+        a['breakpointPrices'] = lvlPrice
         for b in comb:
-            notableData = priceGetter.getNotablePrice(a, b, query, inp)
+            if query == 1:
+                min_lvl = b['notableLevel']
+            else:
+                seq = [x['notableLevel'] for x in b]
+                min_lvl = max(seq)
+            for item in a['breakpointPrices']:
+                if item['lvl'] == min_lvl:
+                    jewel_price = item['price']
+                    break
+            notableData = priceGetter.getNotablePrice(a, b, query, inp, jewel_price)
             if notableData != 0:
                 all_averages.append(notableData)
-            break
 
 
 

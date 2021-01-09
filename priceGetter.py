@@ -64,15 +64,12 @@ def get_category_jewel_price(a, ilvl):
         }
     }
     # send the request to API
-    print("Sending request...")
     try:
         response = requests.post(
             'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set)
         response = response.json()
-        print("Got response!")
     except Exception as e:
         print(e)
-        print("Waiting 60 seconds.")
         time.sleep(60)
     result = response['result']
     id = response['id']
@@ -91,14 +88,14 @@ def get_category_jewel_price(a, ilvl):
     # time delay, so API wont rate limit me
     time.sleep(0.4)
     # get all actual listings of items
-    print("Requesting item info...")
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
     request = requests.get(address)
     results_json = request.json()
     # list to hold all prices of an item. Later used to calculate medium price
     medium = list()
-    print(a['clusterName'])
+    print("Base: " + a['clusterName'])
+    print("ilvl: " + str(ilvl))
     print('Listings:' + str(size))
     for p in results_json['result']:
         # conversion for some more valuable currency
@@ -112,15 +109,13 @@ def get_category_jewel_price(a, ilvl):
             p['listing']['price']['currency'] = "chaos"
         if(p['listing']['price']['currency'] == "chaos"):
             medium.append(p['listing']['price']['amount'])
-        print("Price: ", p['listing']['price']['amount'],
-              " ", p['listing']['price']['currency'], '\n')
     # get the average median of all listed prices for an item
     avg = statistics.median_grouped(medium)
-    print("The average median is " + str(round(avg, 2)) + '\n')
+    print("Average median price: " + str(round(avg, 2)) + '\n')
     return avg
 
 
-def getNotablePrice(a, b, query, inp):
+def getNotablePrice(a, b, query, inp, jewel_price):
     if query == 1:
         ilvl = b['notableLevel']
     else:
@@ -160,12 +155,10 @@ def getNotablePrice(a, b, query, inp):
     # time delay, so API won't rate limit me
     time.sleep(0.4)
     # send the request to API
-    print("Sending request...")
     try:
         response = requests.post(
             'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set)
         response = response.json()
-        print("Got response!")
     except Exception as e:
         print(e)
         print("Waiting 60 seconds.")
@@ -177,7 +170,7 @@ def getNotablePrice(a, b, query, inp):
 
     # if there are less than 10 listings for an item, we just just skip it (no demand)
     if size < 10:
-        print("Not enough items!(" + str(size) + ") Skipping...")
+        print("Not enough items!(" + str(size) + ") Skipping...\n")
         return 0
 
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
@@ -191,7 +184,6 @@ def getNotablePrice(a, b, query, inp):
         str1 = result
 
     # get all actual listings of items
-    print("Requesting item info...")
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
     request = requests.get(address)
@@ -236,7 +228,6 @@ def getNotablePrice(a, b, query, inp):
             rates["Regal Orb"] + scour_count * rates["Orb of Scouring"] + \
             trans_count * rates["Orb of Transmutation"]
 
-    jewel_price = get_category_jewel_price(a, ilvl)
     craft_and_jewel_price = craft_price + jewel_price
 
     # list to hold all prices of an item. Later used to calculate medium price

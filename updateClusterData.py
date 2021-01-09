@@ -22,7 +22,7 @@ def get_data_poedb(size):
         for notable in listOfNotablesData:
             try:
                 notableName = notable.contents[0].contents[1].text
-                notableLevel = notable.contents[2].text
+                notableLevel = int(notable.contents[2].text)
                 notableWeight = notable.contents[1].text
                 weightOfNotables = weightOfNotables + int(notableWeight)
                 for entry in allStats['result'][1]['entries']:
@@ -33,7 +33,7 @@ def get_data_poedb(size):
                     'notableId': notableId,
                     'notableName': notableName,
                     'notableWeight': int(notableWeight),
-                    'notableLevel': int(notableLevel)
+                    'notableLevel': notableLevel
                 }
                 listOfNotables.append(notableInfo)
             except:
