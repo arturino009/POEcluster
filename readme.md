@@ -74,14 +74,7 @@ pip install bs4
 
 ~~Extract it somewhere.~~
 
-~~Open terminal in extracted location.~~
-
-~~Run this:~~
-
-```
-~~python setup.py install~~
-
-```
+~~Open terminal in extracted location and run "python setup.py install".~~
 
 ~~Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl.~~
 
