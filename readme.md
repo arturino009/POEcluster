@@ -9,12 +9,12 @@ Listing all the combinations of notables for medium cluster jewels can take up t
 
 # Features
 
-* Fancy scrollable user inteface with all the cluster jewels
+* Fancy user inteface with all the cluster jewels
 * Index all the single notables for medium and small cluster jewels
-* Index all the possible combinations of notables for medium cluster jewels
-* Double click the selected jewel to open it in pathofexile.com/trade
-* Refresh the info about the selected notable
-* Prices for crafting the jewel
+* Index all the possible combinations of notables for medium cluster jewels~~
+* ~~Double click the selected jewel to open it in pathofexile.com/trade
+* ~~Refresh the info about the selected notable~~
+* Up to date prices for crafting the jewel
 * Profit calculations
 * Sorting
 
@@ -43,9 +43,9 @@ PoeCluster uses a number of python libraries to work properly:
 * time - to work with time
 * itertools - to get all combinations
 * statistics - for more calculations and stats
-* tkinter - fancy user interface with buttons
-* TkTreectrl - addon for tkinter, so I can create table with multiple columns
-* webbrowser - open links
+* pandas - for datasets
+* pandasgui - gui for datasets (if I never have to use tkintertreectrl so be it)
+* ~~webbrowser - open links~~
 * bs4 - parse html and find necessary items
 * os - some commands for os
 * json - parse json file
@@ -66,26 +66,26 @@ pip install statistics
 pip install bs4
 ```
 
-Installing TkTreectrl:
+~~Installing TkTreectrl:~~
 
-You will need 2 additional files: <https://sourceforge.net/projects/tktreectrl/> and <https://sourceforge.net/projects/tkintertreectrl/>
+~~You will need 2 additional files: <https://sourceforge.net/projects/tktreectrl/> and <https://sourceforge.net/projects/tkintertreectrl/>~~
 
-Download this file: <https://sourceforge.net/projects/tkintertreectrl/>
+~~Download this file: <https://sourceforge.net/projects/tkintertreectrl/>~~
 
-Extract it somewhere.
+~~Extract it somewhere.~~
 
-Open terminal in extracted location.
+~~Open terminal in extracted location.~~
 
-Run this:
-
-```
-python setup.py install
+~~Run this:~~
 
 ```
+~~python setup.py install~~
 
-Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl.
+```
 
-Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktreectrl/>
+~~Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl.~~
+
+~~Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktreectrl/>~~
 
 ### Todos
 
@@ -93,7 +93,7 @@ Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktr
 
 * ~~Add auto update for data files. Currently I have to manually download all cluster pages from craftofexile.com every league / every update to cluster jewels. Also automatically download the stats.json file every new league from <https://www.pathofexile.com/api/trade/data/stats>. Also auto update current league.~~
 * ~~Change crafting process from mod % to actual mod weights. It will be more accurate, and I could just get all info from poedb.tw instead of craftofexile.com.~~
-* Replace TktreeCtrl. It was kinda difficult to install and I couldn't figure out how to sort rows by pressing the collumn header (that's why I have buttons and I just have a different list for each button).
+* ~~Replace TktreeCtrl. It was kinda difficult to install and I couldn't figure out how to sort rows by pressing the collumn header (that's why I have buttons and I just have a different list for each button)~~.
 * ~~Figure out the exact way craftofexile.com calculates augmentation orb count when crafting double prefix cluster jewels with alt+aug+regal. Other currencies I figured out correctly as far as I can tell.~~
 * ~~Remove all data pages completely. Currently it parses all the downloaded pages for cluster jewels at the start of each run and it isn't efficient. I just need to add all the necessary info about cluster jewels into one/multiple files and read from there. Probably implement together with auto-update, so it just updates this file instead of downloading all the fully-JS-rendered webpages about cluster jewels every new league.~~
 * Improve speed of execution? Probably impossible, because pathofexile.com/trade rate-limit already is the limiting factor.
