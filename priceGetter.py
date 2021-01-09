@@ -3,6 +3,7 @@ import time
 from json import loads as load
 import statistics
 import math
+import json
 
 
 def getLeague():
@@ -19,7 +20,19 @@ def getCurrencies(league):
     rates = {
         c['currencyTypeName']: c['chaosEquivalent'] for c in currencies
     }
-    return rates
+    with open('currency.json') as json_file:
+        currShort = json.load(json_file)
+    arr = []
+    for name in currShort:
+        for name_a in rates:
+            if name == name_a:
+                x = {
+                    'currFull': name,
+                    'curr': currShort[name],
+                    'rate': rates[name]
+                }
+                arr.append(x)
+    return arr
 
 
 def get_category_jewel_price(a, ilvl):
@@ -99,18 +112,21 @@ def get_category_jewel_price(a, ilvl):
     print('Listings:' + str(size))
     for p in results_json['result']:
         # conversion for some more valuable currency
-        if(p['listing']['price']['currency'] == "exalted"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * \
-                rates["Exalted Orb"]
-            p['listing']['price']['currency'] = "chaos"
-        elif(p['listing']['price']['currency'] == "alch"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * \
-                rates["Orb of Alchemy"]
-            p['listing']['price']['currency'] = "chaos"
-        if(p['listing']['price']['currency'] == "chaos"):
-            medium.append(p['listing']['price']['amount'])
+        currency = p['listing']['price']['currency']
+        if currency != 'chaos' or currency == 'p':
+            try:
+                curr = [dictionary for dictionary in rates if dictionary["curr"]
+                        == p['listing']['price']['currency']]
+                p['listing']['price']['amount'] = p['listing']['price']['amount'] * curr[0]['rate']
+                p['listing']['price']['currency'] = "chaos"
+            except:
+                continue
+        medium.append(p['listing']['price']['amount'])
     # get the average median of all listed prices for an item
-    avg = statistics.median_grouped(medium)
+    if medium == 0:
+        avg = 1
+    else:
+        avg = statistics.median_grouped(medium)
     print("Average median price: " + str(round(avg, 2)) + '\n')
     return avg
 
@@ -190,16 +206,24 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     results_json = request.json()
 
     # probability to get an item while crafting. Formula is mostly correct
+    altPrice = [dictionary for dictionary in rates if dictionary["currFull"]
+                == "Orb of Alteration"][0]['rate']
+    augPrice = [dictionary for dictionary in rates if dictionary["currFull"]
+                == "Orb of Augmentation"][0]['rate']
     if query == 1:
         probability = b['notableWeight']/a['clusterWeightPrefix']
         tries = math.ceil(1 / probability)
         alt_count = tries
         aug_count = math.ceil(alt_count/4)
-        craft_price = alt_count * \
-            rates["Orb of Alteration"] + aug_count * \
-            rates["Orb of Augmentation"]
+        craft_price = alt_count * altPrice + aug_count * augPrice
 
     else:
+        regalPrice = [
+            dictionary for dictionary in rates if dictionary["currFull"] == "Regal Orb"][0]['rate']
+        scourPrice = [dictionary for dictionary in rates if dictionary["currFull"]
+                      == "Orb of Scouring"][0]['rate']
+        transPrice = [dictionary for dictionary in rates if dictionary["currFull"]
+                      == "Orb of Transmutation"][0]['rate']
         suffixWeight = 14150
         probabilityFirst = b[0]['notableWeight'] / a['clusterWeightPrefix']
         probabilityFirstSecond = b[1]['notableWeight'] / \
@@ -224,9 +248,8 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         trans_count = regal_count - 1
         alt_count = tries - trans_count
         aug_count = math.ceil((tries + alt_count) / 4) + 1
-        craft_price = alt_count * rates["Orb of Alteration"] + aug_count * rates["Orb of Augmentation"] + regal_count * \
-            rates["Regal Orb"] + scour_count * rates["Orb of Scouring"] + \
-            trans_count * rates["Orb of Transmutation"]
+        craft_price = alt_count * altPrice + aug_count * augPrice + regal_count * \
+            regalPrice + scour_count * scourPrice + trans_count * transPrice
 
     craft_and_jewel_price = craft_price + jewel_price
 
@@ -244,16 +267,17 @@ def getNotablePrice(a, b, query, inp, jewel_price):
 
     for p in results_json['result']:
         # conversion for some more valuable currency
-        if(p['listing']['price']['currency'] == "exalted"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * \
-                rates["Exalted Orb"]
-            p['listing']['price']['currency'] = "chaos"
-        elif(p['listing']['price']['currency'] == "alch"):
-            p['listing']['price']['amount'] = p['listing']['price']['amount'] * \
-                rates["Orb of Alchemy"]
-            p['listing']['price']['currency'] = "chaos"
-        if(p['listing']['price']['currency'] == "chaos"):
-            medium.append(p['listing']['price']['amount'])
+        currency = p['listing']['price']['currency']
+        if currency != 'chaos' or currency == 'p':
+            try:
+                curr = [dictionary for dictionary in rates if dictionary["curr"]
+                        == p['listing']['price']['currency']]
+                price = p['listing']['price']['amount'] * curr[0]['rate']
+                p['listing']['price']['amount'] = price
+                p['listing']['price']['currency'] = "chaos"
+            except:
+                continue
+        medium.append(p['listing']['price']['amount'])
         print("Price: ", p['listing']['price']['amount'],
               " ", p['listing']['price']['currency'], '\n')
 
@@ -262,7 +286,10 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     # profit margin
     profit = avg - craft_and_jewel_price
     PPT = profit/tries
-    first = (medium[0]+medium[1])/2
+    if len(medium) > 1:
+        first = (medium[0]+medium[1])/2
+    else:
+        first = medium[0]
     LPPT = (first - craft_and_jewel_price)/tries
     print("The average median is ", round(avg, 2),
           "     Profit:", round(profit, 2), '\n')
@@ -270,13 +297,12 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         'name': b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName']),
         'listings': size,
         'tries': round(tries),
-        'craft': round(craft_price, 2),
+        'craft_price': round(craft_price, 2),
         'first': round(first, 2),
-        'average': round(avg, 2),
+        'average_price': round(avg, 2),
         'profit': round(profit, 2),
         'PPT': round(PPT, 3),
-        # when first item is a lot cheaper than average
-        'LPPT': round(LPPT, 3),
+        'LPPT': round(LPPT, 3), # when first item is a lot cheaper than average
         'category': a['clusterName'],
         'request': data_set,
         'category_full': a,
