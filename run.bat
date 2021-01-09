@@ -1,2 +1,0 @@
-python PoeCluster.py
-pause

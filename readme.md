@@ -11,8 +11,8 @@ Listing all the combinations of notables for medium cluster jewels can take up t
 
 * Fancy user inteface with all the cluster jewels
 * Index all the single notables for medium and small cluster jewels
-* Index all the possible combinations of notables for medium cluster jewels~~
-* ~~Double click the selected jewel to open it in pathofexile.com/trade
+* Index all the possible combinations of notables for medium cluster jewels
+* ~~Double click the selected jewel to open it in pathofexile.com/trade~~
 * ~~Refresh the info about the selected notable~~
 * Up to date prices for crafting the jewel
 * Profit calculations
@@ -56,7 +56,7 @@ PoeCluster uses a number of python libraries to work properly:
 
 PoeCluster requires python to run. Tested  version 3.9.
 
-Install the dependencies and run run.bat or PoeCluster.py.
+Install the dependencies and run PoeCluster.py.
 
 Dependencies are installed like this:
 
