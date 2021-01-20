@@ -5,9 +5,18 @@ import statistics
 import math
 import json
 
+headers = requests.utils.default_headers()
+
+#How long (in seconds) to wait between requests to trade API
+rateOfRequests = 5
+
+headers.update({
+    'User-Agent': "IDareYouLV's cluster notable combination price checker",
+    'From': 'arturino009@gmail.com'
+})
 
 def getLeague():
-    leagues = requests.get('http://api.pathofexile.com/leagues')
+    leagues = requests.get('http://api.pathofexile.com/leagues', headers=headers)
     leagues = leagues.json()
     current_league = leagues[4]['id']  # current challenge league
     return current_league
@@ -15,7 +24,7 @@ def getLeague():
 
 def getCurrencies(league):
     response = requests.get(
-        'https://poe.ninja/api/data/currencyoverview?league=' + current_league + '&type=Currency')
+        'https://poe.ninja/api/data/currencyoverview?league=' + current_league + '&type=Currency', headers=headers)
     currencies = load(response.text)['lines']
     rates = {
         c['currencyTypeName']: c['chaosEquivalent'] for c in currencies
@@ -77,17 +86,21 @@ def get_category_jewel_price(a, ilvl):
         }
     }
     # send the request to API
-    try:
+    while True:
         response = requests.post(
-            'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set)
+            'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set, headers=headers)
         response = response.json()
-    except Exception as e:
-        print(e)
-        time.sleep(60)
+        if 'error' in response:
+            print(response['error']['message'])
+            time.sleep(60)
+            continue
+        else:
+            break
     result = response['result']
     id = response['id']
     size = response['total']
-
+    if size == 0:
+        return 0
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
     if size > 10:
         del result[10:]
@@ -99,11 +112,11 @@ def get_category_jewel_price(a, ilvl):
         str1 = result
 
     # time delay, so API wont rate limit me
-    time.sleep(0.4)
+    time.sleep(rateOfRequests)
     # get all actual listings of items
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
-    request = requests.get(address)
+    request = requests.get(address, headers=headers)
     results_json = request.json()
     # list to hold all prices of an item. Later used to calculate medium price
     medium = list()
@@ -169,17 +182,18 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         }
     }
     # time delay, so API won't rate limit me
-    time.sleep(0.4)
+    time.sleep(rateOfRequests)
     # send the request to API
-    try:
+    while True:
         response = requests.post(
-            'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set)
+            'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set, headers=headers)
         response = response.json()
-    except Exception as e:
-        print(e)
-        print("Waiting 60 seconds.")
-        time.sleep(60)
-
+        if 'error' in response:
+            print(response['error']['message'])
+            time.sleep(60)
+            continue
+        else:
+            break
     result = response['result']
     id = response['id']
     size = response['total']
@@ -202,7 +216,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     # get all actual listings of items
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
-    request = requests.get(address)
+    request = requests.get(address, headers=headers)
     results_json = request.json()
 
     # probability to get an item while crafting. Formula is mostly correct

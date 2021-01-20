@@ -8,7 +8,7 @@ import os
 import json
 import ctypes
 import pandas as pd
-from pandasgui import show
+import pandasgui as pg
 
 def toggle_console(a):
     # hiding the console
@@ -81,13 +81,14 @@ try:
             notableData = priceGetter.getNotablePrice(a, b, query, inp, jewel_price)
             if notableData != 0:
                 all_averages.append(notableData)
+            break
 
     toggle_console(0)
 
     df = pd.DataFrame(all_averages)
     df.drop(['request', 'category_full','notable_full','id'], axis=1, inplace=True)
     #gui
-    show(df)
+    pg.show(df)
 except Exception as e:
     print(e)
     stop = int(input())

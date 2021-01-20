@@ -3,6 +3,12 @@ from bs4 import BeautifulSoup
 import json
 import os
 
+headers = requests.utils.default_headers()
+
+headers.update({
+    'User-Agent': "IDareYouLV's cluster notable combination price checker",
+    'From': 'arturino009@gmail.com'
+})
 
 def get_data_poedb(size):
     listOfClusters = list()
@@ -60,11 +66,11 @@ def get_data_poedb(size):
 
 def updateClusterData():
     responseStats = requests.get(
-        "https://www.pathofexile.com/api/trade/data/stats")
+        "https://www.pathofexile.com/api/trade/data/stats", headers=headers)
     global allStats
     allStats = responseStats.json()
 
-    leagues = requests.get('http://api.pathofexile.com/leagues')
+    leagues = requests.get('http://api.pathofexile.com/leagues', headers=headers)
     leagues = leagues.json()
     current_league = leagues[4]['id']  # current challenge league
     file_dir = "data/" + current_league
