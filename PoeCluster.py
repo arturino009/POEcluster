@@ -81,7 +81,6 @@ try:
             notableData = priceGetter.getNotablePrice(a, b, query, inp, jewel_price)
             if notableData != 0:
                 all_averages.append(notableData)
-            break
 
     toggle_console(0)
 
