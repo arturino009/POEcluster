@@ -39,18 +39,12 @@ Columns are:
 
 PoeCluster uses a number of python libraries to work properly:
 
-* requests - sending POST and GET requests to webpages
-* time - to work with time
-* itertools - to get all combinations
+* requests - sending POST and GET requests to webpages OK
 * statistics - for more calculations and stats
 * pandas - for datasets
-* pandasgui - gui for datasets (if I never have to use tkintertreectrl so be it)
-* ~~webbrowser - open links~~
+* pandasgui - gui for datasets (if I never have to use tktreectrl so be it)
 * bs4 - parse html and find necessary items
-* os - some commands for os
-* json - parse json file
-* ctypes - to hide console
-* math - just to use ceil()
+* ~~webbrowser - open links~~
 
 ### Installation
 
@@ -64,6 +58,8 @@ Dependencies are installed like this:
 pip install requests
 pip install statistics
 pip install bs4
+pip install pandas
+pip install pandasgui
 ```
 
 ~~Installing TkTreectrl:~~
