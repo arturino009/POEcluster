@@ -44,6 +44,7 @@ PoeCluster uses a number of python libraries to work properly:
 * pandas - for datasets
 * pandasgui - gui for datasets (if I never have to use tktreectrl so be it)
 * bs4 - parse html and find necessary items
+* lxml
 * ~~webbrowser - open links~~
 
 ### Installation
