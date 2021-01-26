@@ -52,6 +52,18 @@ try:
 
     levelBreakpoints = [1,50,68,75]
 
+    levelRequests = len(levelBreakpoints) * len(all_lists)
+    notableRequests = 0
+    
+    if query == 2:
+        for a in all_lists:
+            notableRequests += a['clusterNotableCombinationCount']
+    else:
+        for a in all_lists:
+            notableRequests += a['clusterNotableCount']
+
+    print("Requests to make: " + str((levelRequests + notableRequests)))
+
     # list of all values that I will get
     all_averages = list()
     for a in all_lists:

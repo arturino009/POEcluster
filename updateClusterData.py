@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import os
+from itertools import combinations
 
 headers = requests.utils.default_headers()
 
@@ -54,11 +55,15 @@ def get_data_poedb(size):
             if i['text'] == nameOfCluster:
                 clusterId = i['id']
                 break
+        notableCount = len(listOfNotables)
+        combCount = len(list(combinations(listOfNotables, 2)))
         clusterInfo = {
             'clusterId': clusterId,
             'clusterName': nameOfCluster,
             'clusterWeightPrefix': weightOfNotables,
-            'clusterNotables': listOfNotables
+            'clusterNotables': listOfNotables,
+            'clusterNotableCount': notableCount,
+            'clusterNotableCombinationCount': combCount
         }
         listOfClusters.append(clusterInfo)
     return listOfClusters

@@ -8,7 +8,8 @@ import json
 headers = requests.utils.default_headers()
 
 #How long (in seconds) to wait between requests to trade API
-rateOfRequests = 5
+#Current rate-limit header rules: 5:10:60,15:60:300,30:300:1800
+timeBetweenRequests = 10
 
 headers.update({
     'User-Agent': "IDareYouLV's cluster notable combination price checker",
@@ -112,7 +113,7 @@ def get_category_jewel_price(a, ilvl):
         str1 = result
 
     # time delay, so API wont rate limit me
-    time.sleep(rateOfRequests)
+    time.sleep(timeBetweenRequests)
     # get all actual listings of items
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
@@ -182,7 +183,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         }
     }
     # time delay, so API won't rate limit me
-    time.sleep(rateOfRequests)
+    time.sleep(timeBetweenRequests)
     # send the request to API
     while True:
         response = requests.post(
