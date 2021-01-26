@@ -5,7 +5,8 @@ PoeCluster is a tool to index all the different combinations of cluster jewels a
 # WARNING
 
 Tool only indexes the notables/combinations which have more than 10 active listings at the current moment on pathofexile.com/trade.
-Listing all the combinations of notables for medium cluster jewels can take up to 15 minutes because of the sheer amount of combinations. The limiting factor here is the sites' rate-limiter.
+Listing all the combinations of notables for medium cluster jewels can take up to ~15 minutes~ 3.5 HOURS because of the sheer amount of combinations (about 1200 for medium clusters). The limiting factor here is the sites' rate-limiter.
+Currently the tool is allowed to make 1 request every 10 seconds, and there is nothing I can do.
 
 # Features
 
