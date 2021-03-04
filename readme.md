@@ -58,10 +58,9 @@ Dependencies are installed like this:
 
 ```
 pip install requests
-pip install statistics
 pip install bs4
 pip install PyQt5
-pip install webbrowser
+pip install lxml
 ```
 
 ~~Installing TkTreectrl:~~

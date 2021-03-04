@@ -105,6 +105,9 @@ class Dialog(QDialog):
             widget = layout.itemAt(i).widget()
             if widget.isChecked():
                 result.append(widget.type)
+        if len(result) == 2: 
+            print("No categories selected!")
+            return
         self.result =  result
         self.accept()
 
