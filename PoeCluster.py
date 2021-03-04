@@ -1,6 +1,5 @@
 from updateClusterData import updateClusterData
 import priceGetter
-import requests
 import time
 from itertools import combinations
 import webbrowser
