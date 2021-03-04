@@ -122,7 +122,10 @@ try:
     if dialog.exec_():
         resultList = dialog.result
 
-    query = resultList[0]
+    try:
+        query = resultList[0]
+    except NameError:
+        quit()
     inp = resultList[1]
     if query == 1:
         location = file_dir + "/small.json" if inp == 1 else file_dir + "/medium.json"
