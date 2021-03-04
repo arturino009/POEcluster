@@ -10,10 +10,11 @@ Currently the tool is allowed to make 1 request every 10 seconds, and there is n
 
 # Features
 
+* Select the categories you want to index
 * Fancy user inteface with all the cluster jewels
 * Index all the single notables for medium and small cluster jewels
 * Index all the possible combinations of notables for medium cluster jewels
-* ~~Double click the selected jewel to open it in pathofexile.com/trade~~
+* Double click the selected jewel to open it in pathofexile.com/trade
 * ~~Refresh the info about the selected notable~~
 * Up to date prices for crafting the jewel
 * Profit calculations
@@ -42,11 +43,10 @@ PoeCluster uses a number of python libraries to work properly:
 
 * requests - sending POST and GET requests to webpages OK
 * statistics - for more calculations and stats
-* pandas - for datasets
-* pandasgui - gui for datasets (if I never have to use tktreectrl so be it)
 * bs4 - parse html and find necessary items
-* lxml
-* ~~webbrowser - open links~~
+* lxml - for optimizing web-crawler
+* webbrowser - open links
+* PyQt5 - UI
 
 ### Installation
 
@@ -60,8 +60,8 @@ Dependencies are installed like this:
 pip install requests
 pip install statistics
 pip install bs4
-pip install pandas
-pip install pandasgui
+pip install PyQt5
+pip install webbrowser
 ```
 
 ~~Installing TkTreectrl:~~

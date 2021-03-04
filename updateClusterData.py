@@ -33,7 +33,7 @@ def get_data_poedb(size):
                 notableWeight = notable.contents[1].text
                 weightOfNotables = weightOfNotables + int(notableWeight)
                 for entry in allStats['result'][1]['entries']:
-                    if notableName in entry['text']:
+                    if ("1 Added Passive Skill is " + notableName) == entry['text']:
                         notableId = entry['id']
                         break
                 notableInfo = {
@@ -51,7 +51,7 @@ def get_data_poedb(size):
         else:
             weightOfNotables = weightOfNotables + 8000
 
-        for i in allStats['result'][4]['entries'][1]['option']['options']:
+        for i in allStats['result'][4]['entries'][2]['option']['options']:
             if i['text'] == nameOfCluster:
                 clusterId = i['id']
                 break

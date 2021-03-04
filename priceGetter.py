@@ -112,8 +112,6 @@ def get_category_jewel_price(a, ilvl):
     else:
         str1 = result
 
-    # time delay, so API wont rate limit me
-    time.sleep(timeBetweenRequests)
     # get all actual listings of items
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
@@ -142,6 +140,9 @@ def get_category_jewel_price(a, ilvl):
     else:
         avg = statistics.median_grouped(medium)
     print("Average median price: " + str(round(avg, 2)) + '\n')
+
+    # time delay, so API wont rate limit me
+    time.sleep(timeBetweenRequests)
     return avg
 
 
@@ -182,8 +183,6 @@ def getNotablePrice(a, b, query, inp, jewel_price):
             "price": "asc"
         }
     }
-    # time delay, so API won't rate limit me
-    time.sleep(timeBetweenRequests)
     # send the request to API
     while True:
         response = requests.post(
@@ -201,7 +200,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
 
     # if there are less than 10 listings for an item, we just just skip it (no demand)
     if size < 10:
-        print("Not enough items!(" + str(size) + ") Skipping...\n")
+        print("Not enough items!(" + str(size) + ") Skipping... " + b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName']) +"\n")
         return 0
 
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
@@ -325,6 +324,9 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         'ilvl': ilvl,
         'id': id
     }
+    # time delay, so API won't rate limit me
+    time.sleep(timeBetweenRequests)
+
     return x
 
 
