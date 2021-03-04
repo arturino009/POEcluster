@@ -6,6 +6,7 @@ import webbrowser
 import os
 import json
 import ctypes
+import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 
@@ -125,7 +126,7 @@ try:
     try:
         query = resultList[0]
     except NameError:
-        quit()
+        sys.exit()
     inp = resultList[1]
     if query == 1:
         location = file_dir + "/small.json" if inp == 1 else file_dir + "/medium.json"
