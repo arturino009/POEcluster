@@ -101,6 +101,7 @@ def get_category_jewel_price(a, ilvl):
     id = response['id']
     size = response['total']
     if size == 0:
+        time.sleep(timeBetweenRequests)
         return 0
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
     if size > 10:
@@ -201,6 +202,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     # if there are less than 10 listings for an item, we just just skip it (no demand)
     if size < 10:
         print("Not enough items!(" + str(size) + ") Skipping... " + b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName']) +"\n")
+        time.sleep(timeBetweenRequests)
         return 0
 
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
