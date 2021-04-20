@@ -167,10 +167,15 @@ try:
             # make a list of all possible combinations of items in each category
             comb = list(combinations(a['clusterNotables'], 2))
         lvlPrice = list()
-        for lvl in levelBreakpoints:
+        levels = list(a["clusterNotableLevels"].keys())
+        for lvl in levels:
+            if levels.index(lvl) == len(levels)-1:
+                maxLVL = 83
+            else:
+                maxLVL = int(levels[levels.index(lvl)+1]) - 1
             x = {
                 'lvl': lvl,
-                'price': priceGetter.get_category_jewel_price(a, lvl)
+                'price': priceGetter.get_category_jewel_price(a, lvl, maxLVL)
             }
             lvlPrice.append(x)
         a['breakpointPrices'] = lvlPrice
@@ -181,7 +186,7 @@ try:
                 seq = [x['notableLevel'] for x in b]
                 min_lvl = max(seq)
             for item in a['breakpointPrices']:
-                if item['lvl'] == min_lvl:
+                if item['lvl'] == str(min_lvl):
                     jewel_price = item['price']
                     break
             notableData = priceGetter.getNotablePrice(a, b, query, inp, jewel_price)

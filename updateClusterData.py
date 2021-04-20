@@ -47,14 +47,19 @@ def get_data_poedb(size):
                 continue
 
         if(size == "Small"):
-            weightOfNotables = weightOfNotables + 9800
+            weightOfNotables = weightOfNotables + 9800      #~15800
         else:
-            weightOfNotables = weightOfNotables + 8000
+            weightOfNotables = weightOfNotables + 8000      #~14000
 
-        for i in allStats['result'][4]['entries'][2]['option']['options']:
+        for i in allStats['result'][4]['entries'][3]['option']['options']:
             if i['text'] == nameOfCluster:
                 clusterId = i['id']
                 break
+        notableLevelBreakpoint = {}
+        for notable in listOfNotables:
+            if notable["notableLevel"] not in notableLevelBreakpoint:
+                notableLevelBreakpoint[notable["notableLevel"]] = 0
+            notableLevelBreakpoint[notable["notableLevel"]] = notableLevelBreakpoint[notable["notableLevel"]] + notable["notableWeight"]
         notableCount = len(listOfNotables)
         combCount = len(list(combinations(listOfNotables, 2)))
         clusterInfo = {
@@ -63,7 +68,8 @@ def get_data_poedb(size):
             'clusterWeightPrefix': weightOfNotables,
             'clusterNotables': listOfNotables,
             'clusterNotableCount': notableCount,
-            'clusterNotableCombinationCount': combCount
+            'clusterNotableCombinationCount': combCount,
+            'clusterNotableLevels': dict(sorted(notableLevelBreakpoint.items()))
         }
         listOfClusters.append(clusterInfo)
     return listOfClusters

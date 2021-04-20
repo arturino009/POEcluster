@@ -45,7 +45,10 @@ def getCurrencies(league):
     return arr
 
 
-def get_category_jewel_price(a, ilvl):
+# Small breakpoints: 1-49; 50-67; 68-72; 75-77
+# Medium breakpoints: 1-49; 50-67; 68-74; 75-83  //not all have 75 notables, so they have 68-83 breakpoint
+
+def get_category_jewel_price(a, ilvl, maxlvl):
     data_set = {  # structure for API request. All info from https://www.reddit.com/r/pathofexiledev/comments/7aiil7/how_to_make_your_own_queries_against_the_official/ . Absolutely no other documentation
         "query": {
             "status": {
@@ -69,7 +72,8 @@ def get_category_jewel_price(a, ilvl):
                             "option": "false"
                         },
                         "ilvl": {
-                            "min": ilvl
+                            "min": ilvl,
+                            "max": maxlvl
                         }
                     }
                 },
@@ -121,7 +125,7 @@ def get_category_jewel_price(a, ilvl):
     # list to hold all prices of an item. Later used to calculate medium price
     medium = list()
     print("Base: " + a['clusterName'])
-    print("ilvl: " + str(ilvl))
+    print("ilvl: " + str(ilvl) + "-" + str(maxlvl))
     print('Listings:' + str(size))
     for p in results_json['result']:
         # conversion for some more valuable currency
@@ -201,7 +205,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
 
     # if there are less than 10 listings for an item, we just just skip it (no demand)
     if size < 10:
-        print("Not enough items!(" + str(size) + ") Skipping... " + b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName']) +"\n")
+        print("Not enough items!(" + str(size) + ") Skipping... " + (b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName'])) +"\n")
         time.sleep(timeBetweenRequests)
         return 0
 
@@ -226,8 +230,24 @@ def getNotablePrice(a, b, query, inp, jewel_price):
                 == "Orb of Alteration"][0]['rate']
     augPrice = [dictionary for dictionary in rates if dictionary["currFull"]
                 == "Orb of Augmentation"][0]['rate']
+
+    clusterPrefixWeight = a['clusterWeightPrefix']      #lvl83 -2100 medium -900 small
+    weight75 = 900 if inp == 1 else 2100
+    weight68 = a['clusterNotableLevels']['75'] + weight75 + (1200 if inp == 1 else 0)
+    weight50 = a['clusterNotableLevels']['68'] + weight68 + (4200 if inp == 1 else 2400)
+    weight1 = a['clusterNotableLevels']['50'] + weight50
+
+    weights = {
+        "1" : weight1,
+        "50" : weight50,
+        "68" : weight68,
+        "75" : weight75
+    }
+
+    clusterPrefixWeight = clusterPrefixWeight - weights[str(ilvl)]
+
     if query == 1:
-        probability = b['notableWeight']/a['clusterWeightPrefix']
+        probability = b['notableWeight']/clusterPrefixWeight
         tries = math.ceil(1 / probability)
         alt_count = tries
         aug_count = math.ceil(alt_count/4)
@@ -240,22 +260,38 @@ def getNotablePrice(a, b, query, inp, jewel_price):
                       == "Orb of Scouring"][0]['rate']
         transPrice = [dictionary for dictionary in rates if dictionary["currFull"]
                       == "Orb of Transmutation"][0]['rate']
+
         suffixWeight = 14150
-        probabilityFirst = b[0]['notableWeight'] / a['clusterWeightPrefix']
+
+        sweight75 = 1100 if inp == 1 else 3550
+        sweight68 = sweight75 + (2200 if inp == 1 else 0)
+        sweight50 = sweight68 + (7700 if inp == 1 else 4750)
+        sweight1 = sweight50
+
+        sweights = {
+        "1" : sweight1,
+        "50" : sweight50,
+        "68" : sweight68,
+        "75" : sweight75
+        }   
+
+        suffixWeight = suffixWeight - sweights[str(ilvl)]
+
+        probabilityFirst = b[0]['notableWeight'] / clusterPrefixWeight
         probabilityFirstSecond = b[1]['notableWeight'] / \
-            (a['clusterWeightPrefix'] + suffixWeight - b[0]['notableWeight'])
+            (clusterPrefixWeight + suffixWeight - b[0]['notableWeight'])
         probabilityFirstSucess = probabilityFirst * probabilityFirstSecond
 
-        probabilitySecond = b[1]['notableWeight'] / a['clusterWeightPrefix']
+        probabilitySecond = b[1]['notableWeight'] / clusterPrefixWeight
         probabilitySecondFirst = b[0]['notableWeight'] / \
-            (a['clusterWeightPrefix'] + suffixWeight - b[1]['notableWeight'])
+            (clusterPrefixWeight + suffixWeight - b[1]['notableWeight'])
         probabilitySecondSucess = probabilitySecond * probabilitySecondFirst
 
         probability = probabilityFirstSucess + \
             probabilitySecondSucess  # overall probability to hit both
 
         probability_first = (b[0]['notableWeight'] + b[1]
-                             ['notableWeight']) / a['clusterWeightPrefix']
+                             ['notableWeight']) / clusterPrefixWeight
         probability_second = probability/probability_first
 
         tries = math.ceil(1 / probability)
@@ -279,7 +315,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     else:
         print(b[0]['notableName'] + " and " + b[1]['notableName'] + ": " + str(round(probability*100, 3)
                                                                                ) + "%" + " Cost for rerolls: " + str(round(craft_price, 2)) + " Tries: " + str(round(tries)))
-        print('Listings:' + str(size))
+        print('Listings:' + str(size) + " Weight: " + str(clusterPrefixWeight))
 
     for p in results_json['result']:
         # conversion for some more valuable currency
