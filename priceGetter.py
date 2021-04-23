@@ -233,9 +233,9 @@ def getNotablePrice(a, b, query, inp, jewel_price):
 
     clusterPrefixWeight = a['clusterWeightPrefix']      #lvl83 -2100 medium -900 small
     weight75 = 900 if inp == 1 else 2100
-    weight68 = a['clusterNotableLevels']['75'] + weight75 + (1200 if inp == 1 else 0)
-    weight50 = a['clusterNotableLevels']['68'] + weight68 + (4200 if inp == 1 else 2400)
-    weight1 = a['clusterNotableLevels']['50'] + weight50
+    weight68 = a['clusterNotableLevels']['75'] if '75' in a['clusterNotableLevels'] else 0 + weight75 + (1200 if inp == 1 else 0)
+    weight50 = a['clusterNotableLevels']['68'] if '68' in a['clusterNotableLevels'] else 0 + weight68 + (4200 if inp == 1 else 2400)
+    weight1 = a['clusterNotableLevels']['50'] if '50' in a['clusterNotableLevels'] else 0 + weight50
 
     weights = {
         "1" : weight1,
