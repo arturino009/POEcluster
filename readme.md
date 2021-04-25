@@ -89,4 +89,4 @@ pip install lxml
 * Improve speed of execution? Probably impossible, because pathofexile.com/trade rate-limit already is the limiting factor.
 * ~~Add ILVL's of notables/clusters in the calculations. That's a lot of work, but the calculations might be more accurate.~~ Also maybe add the calculations of prices for jewels with different number of passives.
 * Add calculations for just the notable without the category. Some notables share categories, and people sometimes don't care about the base enchant of the cluster.
-* Create an .exe file so all the dependencies would be included? I don't know if that's really possible
+* ~~Create an .exe file so all the dependencies would be included? I don't know if that's really possible~~
