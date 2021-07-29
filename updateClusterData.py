@@ -51,7 +51,7 @@ def get_data_poedb(size):
         else:
             weightOfNotables = weightOfNotables + 8000      #~14000
 
-        for i in allStats['result'][4]['entries'][3]['option']['options']:
+        for i in allStats['result'][4]['entries'][1]['option']['options']:
             if i['text'] == nameOfCluster:
                 clusterId = i['id']
                 break
