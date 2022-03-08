@@ -56,7 +56,8 @@ def get_category_jewel_price(a, ilvl, maxlvl):
             },
             "stats": [{
                 "type": "and",
-                "filters": [{"id": 'enchant.stat_3948993189', "value": {"option": a['clusterId']}}]
+                "filters": [{"id": 'enchant.stat_3948993189', "value": {"option": a['clusterId']}},
+                            {"id": "enchant.stat_3086156145", "value": {"max": 5}}]
             }],
             "filters": {
                 "type_filters": {
@@ -165,7 +166,8 @@ def getNotablePrice(a, b, query, inp, jewel_price):
             "type": "Small Cluster Jewel" if inp == 1 else "Medium Cluster Jewel",
             "stats": [{
                 "type": "and",
-                "filters": [{"id": b['notableId']}] if query == 1 else [{"id": b[0]['notableId']}, {"id": b[1]['notableId']}]
+                "filters": [{"id": b['notableId']}] if query == 1 else [{"id": b[0]['notableId']}, {"id": b[1]['notableId']},
+                            {"id": "enchant.stat_3086156145", "value": {"max": 5}}]
             }],
             "filters": {
                 "type_filters": {
