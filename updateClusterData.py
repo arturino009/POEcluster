@@ -29,7 +29,11 @@ def get_data_poedb(size):
         for notable in listOfNotablesData:
             try:
                 notableName = notable.contents[0].contents[1].text
+                if "Added Small Passive Skills also grant" in notableName:
+                    continue
                 notableLevel = int(notable.contents[2].text)
+                if notableLevel == 84:
+                    continue
                 notableWeight = notable.contents[1].text
                 weightOfNotables = weightOfNotables + int(notableWeight)
                 for entry in allStats['result'][1]['entries']:
@@ -51,7 +55,7 @@ def get_data_poedb(size):
         else:
             weightOfNotables = weightOfNotables + 8000      #~14000
         clusterId = 0
-        for i in allStats['result'][4]['entries'][1]['option']['options']:
+        for i in allStats['result'][4]['entries'][0]['option']['options']:
             if i['text'] == nameOfCluster:
                 clusterId = i['id']
                 break
