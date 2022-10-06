@@ -87,7 +87,7 @@ class Dialog(QDialog):
         for category in all_lists:
             count += 1
             clusterbox = QCheckBox(category['clusterName'])
-            clusterbox.setChecked(True)
+            clusterbox.setChecked(False)
             clusterbox.type = category['clusterName']
             layout.addWidget(clusterbox, count, 0)
         executebutton = QPushButton("Execute")
