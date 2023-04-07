@@ -1,3 +1,4 @@
+import os
 import requests
 import time
 from json import loads as load
@@ -16,10 +17,10 @@ headers.update({
     'From': 'arturino009@gmail.com'
 })
 
-def getLeague():
+def getLeague(league_id):
     leagues = requests.get('http://api.pathofexile.com/leagues', headers=headers)
     leagues = leagues.json()
-    current_league = leagues[4]['id']  # current challenge league
+    current_league = leagues[league_id]['id']  # current challenge league
     return current_league
 
 
@@ -56,8 +57,7 @@ def get_category_jewel_price(a, ilvl, maxlvl):
             },
             "stats": [{
                 "type": "and",
-                "filters": [{"id": 'enchant.stat_3948993189', "value": {"option": a['clusterId']}},
-                            {"id": "enchant.stat_3086156145", "value": {"max": 5}}]
+                "filters": [{"id": 'enchant.stat_3948993189', "value": {"option": a['clusterId']}}]
             }],
             "filters": {
                 "type_filters": {
@@ -125,6 +125,7 @@ def get_category_jewel_price(a, ilvl, maxlvl):
     results_json = request.json()
     # list to hold all prices of an item. Later used to calculate medium price
     medium = list()
+    print("Address: " + address)
     print("Base: " + a['clusterName'])
     print("ilvl: " + str(ilvl) + "-" + str(maxlvl))
     print('Listings:' + str(size))
@@ -152,11 +153,11 @@ def get_category_jewel_price(a, ilvl, maxlvl):
     return avg
 
 
-def getNotablePrice(a, b, query, inp, jewel_price):
+def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price):
     if query == 1:
-        ilvl = b['notableLevel']
+        ilvl = notable_combination['notableLevel']
     else:
-        ilvl = max(b[0]['notableLevel'], b[1]['notableLevel'])
+        ilvl = max(notable_combination[0]['notableLevel'], notable_combination[1]['notableLevel'])
 
     data_set = {  # structure for API request. All info from https://www.reddit.com/r/pathofexiledev/comments/7aiil7/how_to_make_your_own_queries_against_the_official/ . Absolutely no other documentation
         "query": {
@@ -166,8 +167,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
             "type": "Small Cluster Jewel" if inp == 1 else "Medium Cluster Jewel",
             "stats": [{
                 "type": "and",
-                "filters": [{"id": b['notableId']}] if query == 1 else [{"id": b[0]['notableId']}, {"id": b[1]['notableId']},
-                            {"id": "enchant.stat_3086156145", "value": {"max": 5}}]
+                "filters": [{"id": notable_combination['notableId']}] if query == 1 else [{"id": notable_combination[0]['notableId']}, {"id": notable_combination[1]['notableId']}]
             }],
             "filters": {
                 "type_filters": {
@@ -207,7 +207,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
 
     # if there are less than 10 listings for an item, we just just skip it (no demand)
     if size < 10:
-        print("Not enough items!(" + str(size) + ") Skipping... " + (b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName'])) +"\n")
+        print("Not enough items!(" + str(size) + ") Skipping... " + (notable_combination['notableName'] if query == 1 else (notable_combination[0]['notableName'] + " and " + notable_combination[1]['notableName'])) +"\n")
         time.sleep(timeBetweenRequests)
         return 0
 
@@ -233,23 +233,24 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     augPrice = [dictionary for dictionary in rates if dictionary["currFull"]
                 == "Orb of Augmentation"][0]['rate']
 
-    clusterPrefixWeight = a['clusterWeightPrefix']      #lvl83 -2100 medium -900 small
+    clusterPrefixWeight = cluster_jewel['clusterWeightPrefix']      #lvl83 -2100 medium -900 small
     weight75 = 900 if inp == 1 else 2100
-    weight68 = a['clusterNotableLevels']['75'] if '75' in a['clusterNotableLevels'] else 0 + weight75 + (1200 if inp == 1 else 0)
-    weight50 = a['clusterNotableLevels']['68'] if '68' in a['clusterNotableLevels'] else 0 + weight68 + (4200 if inp == 1 else 2400)
-    weight1 = a['clusterNotableLevels']['50'] if '50' in a['clusterNotableLevels'] else 0 + weight50
+    weight68 = cluster_jewel['clusterNotableLevels']['75'] if '75' in cluster_jewel['clusterNotableLevels'] else 0 + weight75 + (1200 if inp == 1 else 0)
+    weight50 = cluster_jewel['clusterNotableLevels']['68'] if '68' in cluster_jewel['clusterNotableLevels'] else 0 + weight68 + (4200 if inp == 1 else 2400)
+    weight1 = cluster_jewel['clusterNotableLevels']['50'] if '50' in cluster_jewel['clusterNotableLevels'] else 0 + weight50
 
     weights = {
         "1" : weight1,
         "50" : weight50,
         "68" : weight68,
-        "75" : weight75
+        "75" : weight75,
+        "84" : weight75,
     }
 
     clusterPrefixWeight = clusterPrefixWeight - weights[str(ilvl)]
 
     if query == 1:
-        probability = b['notableWeight']/clusterPrefixWeight
+        probability = notable_combination['notableWeight']/clusterPrefixWeight
         tries = math.ceil(1 / probability)
         alt_count = tries
         aug_count = math.ceil(alt_count/4)
@@ -274,25 +275,26 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         "1" : sweight1,
         "50" : sweight50,
         "68" : sweight68,
-        "75" : sweight75
+        "75" : sweight75,
+        "84" : sweight75
         }   
 
         suffixWeight = suffixWeight - sweights[str(ilvl)]
 
-        probabilityFirst = b[0]['notableWeight'] / clusterPrefixWeight
-        probabilityFirstSecond = b[1]['notableWeight'] / \
-            (clusterPrefixWeight + suffixWeight - b[0]['notableWeight'])
+        probabilityFirst = notable_combination[0]['notableWeight'] / clusterPrefixWeight
+        probabilityFirstSecond = notable_combination[1]['notableWeight'] / \
+            (clusterPrefixWeight + suffixWeight - notable_combination[0]['notableWeight'])
         probabilityFirstSucess = probabilityFirst * probabilityFirstSecond
 
-        probabilitySecond = b[1]['notableWeight'] / clusterPrefixWeight
-        probabilitySecondFirst = b[0]['notableWeight'] / \
-            (clusterPrefixWeight + suffixWeight - b[1]['notableWeight'])
+        probabilitySecond = notable_combination[1]['notableWeight'] / clusterPrefixWeight
+        probabilitySecondFirst = notable_combination[0]['notableWeight'] / \
+            (clusterPrefixWeight + suffixWeight - notable_combination[1]['notableWeight'])
         probabilitySecondSucess = probabilitySecond * probabilitySecondFirst
 
         probability = probabilityFirstSucess + \
             probabilitySecondSucess  # overall probability to hit both
 
-        probability_first = (b[0]['notableWeight'] + b[1]
+        probability_first = (notable_combination[0]['notableWeight'] + notable_combination[1]
                              ['notableWeight']) / clusterPrefixWeight
         probability_second = probability/probability_first
 
@@ -311,11 +313,11 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     medium = list()
 
     if query == 1:
-        print(b['notableName'] + ": " + str(round(probability*100, 3)) + "%" +
+        print(notable_combination['notableName'] + ": " + str(round(probability*100, 3)) + "%" +
               " Cost for rerolls: " + str(round(craft_price, 2)) + " Tries: " + str(round(tries)))
         print('Listings:' + str(size))
     else:
-        print(b[0]['notableName'] + " and " + b[1]['notableName'] + ": " + str(round(probability*100, 3)
+        print(notable_combination[0]['notableName'] + " and " + notable_combination[1]['notableName'] + ": " + str(round(probability*100, 3)
                                                                                ) + "%" + " Cost for rerolls: " + str(round(craft_price, 2)) + " Tries: " + str(round(tries)))
         print('Listings:' + str(size) + " Weight: " + str(clusterPrefixWeight))
 
@@ -348,7 +350,7 @@ def getNotablePrice(a, b, query, inp, jewel_price):
     print("The average median is ", round(avg, 2),
           "     Profit:", round(profit, 2), '\n')
     x = {
-        'name': b['notableName'] if query == 1 else (b[0]['notableName'] + " and " + b[1]['notableName']),
+        'name': notable_combination['notableName'] if query == 1 else (notable_combination[0]['notableName'] + " and " + notable_combination[1]['notableName']),
         'listings': size,
         'tries': round(tries),
         'craft_price': round(craft_price, 2),
@@ -357,10 +359,10 @@ def getNotablePrice(a, b, query, inp, jewel_price):
         'profit': round(profit, 2),
         'PPT': round(PPT, 3),
         'LPPT': round(LPPT, 3), # when first item is a lot cheaper than average
-        'category': a['clusterName'],
+        'category': cluster_jewel['clusterName'],
         'request': data_set,
-        'category_full': a,
-        'notable_full': b,
+        'category_full': cluster_jewel,
+        'notable_full': notable_combination,
         'ilvl': ilvl,
         'id': id
     }
@@ -369,7 +371,9 @@ def getNotablePrice(a, b, query, inp, jewel_price):
 
     return x
 
+current_league_id = 0
+current_league = getLeague(current_league_id)
 
-current_league = getLeague()
+print("Current league : " + current_league)
 
 rates = getCurrencies(current_league)
