@@ -52,10 +52,7 @@ PoeCluster uses a number of python libraries to work properly:
 
 PoeCluster requires python to run. Tested  version 3.9.
 
-Install the dependencies and run PoeCluster.py.
-
-Dependencies are installed like this:
-
+Install the dependencies:
 ```
 pip install requests
 pip install bs4
@@ -63,19 +60,12 @@ pip install PyQt5
 pip install lxml
 ```
 
-~~Installing TkTreectrl:~~
+Run the main script:
+```
+cd path/to/PoeCluster
+python poe_cluster
+```
 
-~~You will need 2 additional files: <https://sourceforge.net/projects/tktreectrl/> and <https://sourceforge.net/projects/tkintertreectrl/>~~
-
-~~Download this file: <https://sourceforge.net/projects/tkintertreectrl/>~~
-
-~~Extract it somewhere.~~
-
-~~Open terminal in extracted location and run "python setup.py install".~~
-
-~~Navigate to C:\Users\\{yourUser}\AppData\Local\Programs\Python\Python39\tcl.~~
-
-~~Insert here the folder treectrl2.4.1 from <https://sourceforge.net/projects/tktreectrl/>~~
 
 ### Todos
 
