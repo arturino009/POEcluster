@@ -371,7 +371,7 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
 
     return x
 
-current_league_id = 0
+current_league_id = 8
 current_league = getLeague(current_league_id)
 
 print("Current league : " + current_league)

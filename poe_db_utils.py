@@ -12,9 +12,15 @@ headers.update({
     'From': 'arturino009@gmail.com'
 })
 
+def find(lst, key, value):
+    for i, dic in enumerate(lst):
+        if dic[key] == value:
+            return i
+    return -1
+
 def get_data_poedb(size):
     listOfClusters = list()
-    link = "https://poedb.tw/us/" + size + "_Cluster_Jewel"
+    link = "https://poedb.tw/us/" + size + "_Cluster_Jewel#EnchantmentModifiers"
     page = requests.get(link)
     soup = BeautifulSoup(page.content, 'lxml')
     table = soup.find(id="EnchantmentModifiers")
@@ -52,7 +58,9 @@ def get_data_poedb(size):
         else:
             weightOfNotables = weightOfNotables + 8000      #~14000
 
-        for i in allStats['result'][4]['entries'][0]['option']['options']:
+        enchantIndex = find(allStats['result'], "label", "Enchant")
+        statIndex = find(allStats['result'][enchantIndex]['entries'], "id", "enchant.stat_3948993189")
+        for i in allStats['result'][enchantIndex]['entries'][statIndex]['option']['options']:
             if i['text'] == nameOfCluster:
                 clusterId = i['id']
                 break
