@@ -31,11 +31,20 @@ def get_data_poedb(size):
         clusterId = ''
         parent = cluster.find_parent('td')
         nameOfCluster = parent.contents[0].text
+        nameOfCluster = nameOfCluster.split("(", 1)[0]
+        if nameOfCluster == "3% increased effect of Non-Curse Auras from your Skills" or nameOfCluster == "2% increased Effect of your Curses":
+            continue
+        elif nameOfCluster == "12% increased Trap Damage12% increased Mine Damage":
+            nameOfCluster = "12% increased Trap Damage\n12% increased Mine Damage"
+        elif nameOfCluster == "10% increased Life Recovery from Flasks10% increased Mana Recovery from Flasks":
+            nameOfCluster = "10% increased Life Recovery from Flasks\n10% increased Mana Recovery from Flasks"
         actualData = parent.contents[4]
         listOfNotablesData = actualData.find('tbody').contents
         for notable in listOfNotablesData:
             try:
                 notableName = notable.contents[0].contents[1].text
+                if "Added Small Passive Skills also grant:" in notableName:
+                    continue
                 notableLevel = int(notable.contents[2].text)
                 notableWeight = notable.contents[1].text
                 weightOfNotables = weightOfNotables + int(notableWeight)

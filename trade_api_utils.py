@@ -57,7 +57,8 @@ def get_category_jewel_price(a, ilvl, maxlvl):
             },
             "stats": [{
                 "type": "and",
-                "filters": [{"id": 'enchant.stat_3948993189', "value": {"option": a['clusterId']}}]
+                "filters": [{"id": 'enchant.stat_3948993189', "value": {"option": a['clusterId']}},
+                            {"id": "enchant.stat_3086156145", "value": {"max": 5}}]
             }],
             "filters": {
                 "type_filters": {
@@ -167,7 +168,8 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
             "type": "Small Cluster Jewel" if inp == 1 else "Medium Cluster Jewel",
             "stats": [{
                 "type": "and",
-                "filters": [{"id": notable_combination['notableId']}] if query == 1 else [{"id": notable_combination[0]['notableId']}, {"id": notable_combination[1]['notableId']}]
+                "filters": [{"id": notable_combination['notableId']}] if query == 1 else [{"id": notable_combination[0]['notableId']}, {"id": notable_combination[1]['notableId']},
+                                                                                          {"id": "enchant.stat_3086156145", "value": {"max": 5}}]
             }],
             "filters": {
                 "type_filters": {
@@ -235,9 +237,9 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
 
     clusterPrefixWeight = cluster_jewel['clusterWeightPrefix']      #lvl83 -2100 medium -900 small
     weight75 = 900 if inp == 1 else 2100
-    weight68 = cluster_jewel['clusterNotableLevels']['75'] if '75' in cluster_jewel['clusterNotableLevels'] else 0 + weight75 + (1200 if inp == 1 else 0)
-    weight50 = cluster_jewel['clusterNotableLevels']['68'] if '68' in cluster_jewel['clusterNotableLevels'] else 0 + weight68 + (4200 if inp == 1 else 2400)
-    weight1 = cluster_jewel['clusterNotableLevels']['50'] if '50' in cluster_jewel['clusterNotableLevels'] else 0 + weight50
+    weight68 = (cluster_jewel['clusterNotableLevels'][75] if 75 in cluster_jewel['clusterNotableLevels'] else 0) + weight75 + (1200 if inp == 1 else 0)
+    weight50 = (cluster_jewel['clusterNotableLevels'][68] if 68 in cluster_jewel['clusterNotableLevels'] else 0) + weight68 + (4200 if inp == 1 else 2400)
+    weight1 = (cluster_jewel['clusterNotableLevels'][50] if 50 in cluster_jewel['clusterNotableLevels'] else 0) + weight50
 
     weights = {
         "1" : weight1,
