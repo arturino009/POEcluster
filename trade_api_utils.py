@@ -1,21 +1,21 @@
-import os
+import math
+import statistics
 import requests
 import time
 from json import loads as load
-import statistics
-import math
 import json
 
 headers = requests.utils.default_headers()
 
-#How long (in seconds) to wait between requests to trade API
 #Current rate-limit header rules: 5:10:60,15:60:300,30:300:1800
-timeBetweenRequests = 10
 
 headers.update({
     'User-Agent': "IDareYouLV's cluster notable combination price checker",
     'From': 'arturino009@gmail.com'
 })
+cookies = {
+    "POESESSID": "your_poe_session_id"
+}
 
 def getLeague(league_id):
     leagues = requests.get('http://api.pathofexile.com/leagues', headers=headers)
@@ -44,6 +44,122 @@ def getCurrencies(league):
                 }
                 arr.append(x)
     return arr
+
+class RateLimitedRequester:
+    def __init__(self):
+        # Optional headers/cookies that can be passed in.
+        self.headers = headers
+        self.cookies = cookies
+        # These dictionaries persist across requests.
+        self.global_window_start_times = {}
+        self.account_window_start_times = {}
+
+    def get_rate_limit_headers(self, response):
+        # If your API doesn't supply these headers, replace the default values as needed.
+        return {
+            "global_limit": response.headers.get("X-Rate-Limit-Ip", "8:10:60,15:60:120,60:300:1800"),
+            "global_state": response.headers.get("X-Rate-Limit-Ip-State", "0:10:0,0:60:0,0:300:0"),
+            "account_limit": response.headers.get("X-Rate-Limit-Account", "8:10:60,15:60:120,60:300:1800"),
+            "account_state": response.headers.get("X-Rate-Limit-Account-State", "0:10:0,0:60:0,0:300:0")
+        }
+
+    def calculate_delay(self, rate_limit_rules, rate_limit_state, window_start_times):
+        """
+        For each rule:
+          - If the burst limit is not yet reached, no delay is needed.
+          - If the limit is reached, we wait until the current window resets.
+          - If a penalty is active, we wait for that penalty.
+        """
+        # Parse the rules and state into lists of tuples.
+        rules = [tuple(map(int, rule.split(':'))) for rule in rate_limit_rules.split(',')]
+        states = [tuple(map(int, state.split(':'))) for state in rate_limit_state.split(',')]
+        delays = []
+        now = time.time()
+        for idx, (rule, state) in enumerate(zip(rules, states)):
+            max_requests, timeframe, penalty_time = rule
+            requests_made, state_timeframe, remaining_penalty = state
+
+            # Get or initialize the window start time.
+            window_start = window_start_times.get(idx, now)
+            elapsed = now - window_start
+
+            # If a penalty is active, enforce that delay.
+            if remaining_penalty > 0:
+                delays.append(remaining_penalty)
+                continue
+
+            if requests_made < max_requests:
+                # Still below the limit – no delay needed.
+                delay = 0
+            else:
+                # If the limit is reached, wait until the window resets.
+                delay = max(0, timeframe - elapsed)
+                formatted_time = time.strftime('%H:%M:%S', time.localtime(window_start))
+                print("Window start time:", formatted_time)
+                formatted_time_now = time.strftime('%H:%M:%S', time.localtime(window_start))
+                print("Time now:", formatted_time_now)
+            delays.append(delay)
+        
+        # To be safe, use the most restrictive delay among all rules.
+        return max(delays) if delays else 0
+
+    def update_window_times(self, rate_limit_rules, window_start_times, last_request_time):
+        """
+        For each rule:
+          - If no window start time exists, initialize it to last_request_time.
+          - Otherwise, if the window has expired, update it to last_request_time.
+        """
+        rules = [tuple(map(int, rule.split(':'))) for rule in rate_limit_rules.split(',')]
+        for idx, (max_requests, timeframe, _) in enumerate(rules):
+            if idx not in window_start_times:
+                window_start_times[idx] = last_request_time
+            else:
+                if last_request_time - window_start_times[idx] >= timeframe:
+                    window_start_times[idx] = last_request_time
+
+
+    def send_request(self, url, data=None):
+        last_request_time = None
+        while True:
+            current_time = time.time()
+            elapsed_since_last = current_time - last_request_time if last_request_time else 0
+
+            if data:
+                response = requests.post(url, json=data, headers=self.headers, cookies=self.cookies)
+            else:
+                response = requests.get(url, headers=self.headers, cookies=self.cookies)
+
+            rate_limits = self.get_rate_limit_headers(response)
+            print("Rate limits:", rate_limits)
+
+            global_delay = self.calculate_delay(rate_limits["global_limit"],
+                                                rate_limits["global_state"],
+                                                self.global_window_start_times)
+            account_delay = self.calculate_delay(rate_limits["account_limit"],
+                                                 rate_limits["account_state"],
+                                                 self.account_window_start_times)
+            delay = max(global_delay, account_delay)
+            print("Calculated delay:", delay)
+
+            response_json = response.json()
+            if 'error' in response_json:
+                print("Error:", response_json['error']['message'])
+                time.sleep(delay)
+                continue
+
+            last_request_time = time.time()
+
+            # Update the window start times (this call now passes 3 arguments plus self)
+            self.update_window_times(rate_limits["global_limit"],
+                                     self.global_window_start_times,
+                                     last_request_time)
+            self.update_window_times(rate_limits["account_limit"],
+                                     self.account_window_start_times,
+                                     last_request_time)
+
+            if delay > elapsed_since_last:
+                time.sleep(delay - elapsed_since_last)
+            return response_json
 
 
 # Small breakpoints: 1-49; 50-67; 68-72; 75-77
@@ -93,21 +209,11 @@ def get_category_jewel_price(a, ilvl, maxlvl):
         }
     }
     # send the request to API
-    while True:
-        response = requests.post(
-            'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set, headers=headers)
-        response = response.json()
-        if 'error' in response:
-            print(response['error']['message'])
-            time.sleep(60)
-            continue
-        else:
-            break
+    response = requester.send_request('https://www.pathofexile.com/api/trade/search/' + current_league, data_set)
     result = response['result']
     id = response['id']
     size = response['total']
     if size == 0:
-        time.sleep(timeBetweenRequests)
         return 0
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
     if size > 10:
@@ -122,11 +228,10 @@ def get_category_jewel_price(a, ilvl, maxlvl):
     # get all actual listings of items
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
-    request = requests.get(address, headers=headers)
-    results_json = request.json()
+    results_json = requester.send_request(address)
     # list to hold all prices of an item. Later used to calculate medium price
     medium = list()
-    print("Address: " + address)
+    #print("Address: " + address)
     print("Base: " + a['clusterName'])
     print("ilvl: " + str(ilvl) + "-" + str(maxlvl))
     print('Listings:' + str(size))
@@ -148,9 +253,6 @@ def get_category_jewel_price(a, ilvl, maxlvl):
     else:
         avg = statistics.median_grouped(medium)
     print("Average median price: " + str(round(avg, 2)) + '\n')
-
-    # time delay, so API wont rate limit me
-    time.sleep(timeBetweenRequests)
     return avg
 
 
@@ -193,16 +295,7 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
         }
     }
     # send the request to API
-    while True:
-        response = requests.post(
-            'https://www.pathofexile.com/api/trade/search/' + current_league, json=data_set, headers=headers)
-        response = response.json()
-        if 'error' in response:
-            print(response['error']['message'])
-            time.sleep(60)
-            continue
-        else:
-            break
+    response = requester.send_request('https://www.pathofexile.com/api/trade/search/' + current_league, data_set)
     result = response['result']
     id = response['id']
     size = response['total']
@@ -210,7 +303,6 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
     # if there are less than 10 listings for an item, we just just skip it (no demand)
     if size < 10:
         print("Not enough items!(" + str(size) + ") Skipping... " + (notable_combination['notableName'] if query == 1 else (notable_combination[0]['notableName'] + " and " + notable_combination[1]['notableName'])) +"\n")
-        time.sleep(timeBetweenRequests)
         return 0
 
     # if there are more than 10 listings, strip all of them away after 10th. We cant request info about items more than 10 items at once
@@ -226,8 +318,7 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
     # get all actual listings of items
     address = 'https://www.pathofexile.com/api/trade/fetch/' + \
         str(str1) + '?query=' + id
-    request = requests.get(address, headers=headers)
-    results_json = request.json()
+    results_json = requester.send_request(address)
 
     # probability to get an item while crafting. Formula is mostly correct
     altPrice = [dictionary for dictionary in rates if dictionary["currFull"]
@@ -368,14 +459,14 @@ def getNotablePrice(cluster_jewel, notable_combination, query, inp, jewel_price)
         'ilvl': ilvl,
         'id': id
     }
-    # time delay, so API won't rate limit me
-    time.sleep(timeBetweenRequests)
-
     return x
-
-current_league_id = 8
+# 8 is default
+# 16 is event 
+current_league_id = 16
 current_league = getLeague(current_league_id)
 
 print("Current league : " + current_league)
 
 rates = getCurrencies(current_league)
+
+requester = RateLimitedRequester()
